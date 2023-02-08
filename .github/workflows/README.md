@@ -46,11 +46,8 @@ This workflow has two caches; one cache is for the lesson infrastructure and
 the other is for the the lesson dependencies if the lesson contains rendered
 content. These caches are invalidated by new versions of the infrastructure and
 the `renv.lock` file, respectively. If there is a problem with the cache, 
-manual invaliation is necessary. You will need maintain access to the repository
-and you can either go to the actions tab and [click on the caches button to find
-and invalidate the failing cache](https://github.blog/changelog/2022-10-20-manage-caches-in-your-actions-workflows-from-web-interface/) 
-or by setting the `CACHE_VERSION` secret to the current date (which will
-invalidate all of the caches).
+manual invaliation is necessary and can be done by setting the `CACHE_VERSION`
+secret to the current date.
 
 ## Updates
 
