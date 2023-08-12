@@ -6,7 +6,6 @@ exercises: 2
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- What are some different types of time-series data?
 - How can we predict future values in a time-series?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
