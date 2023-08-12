@@ -221,12 +221,50 @@ any links that you are not going to use.
  -->
 
 
-      <section id="setup"><p>Setup instructions live in this document. Please specify the tools
-and the data sets the Learner needs to have installed.</p>
+      <section id="setup"><p>The source dataset this used for lesson consists of smart meter power
+consumption data provided by the Los Alamos Public Utility Department
+(LADPU) in Los Alamos, New Mexico, USA. In their original format the
+data have only been processed to remove consumer information. The data
+contain missing and duplicate values.</p>
+<p>The original dataset on which the lesson materials are based is
+available from Dyrad, <em>LADPU Smart Meter Data</em>, <a href="https://doi.org/10.5061/dryad.m0cfxpp2c" class="external-link">https://doi.org/10.5061/dryad.m0cfxpp2c</a>
+and has been made available with a CC-0 license:</p>
+<blockquote>
+<p>Souza, Vinicius; Estrada, Trilce; Bashir, Adnan; Mueen, Abdullah
+(2020), <em>LADPU Smart Meter Data</em>, Dryad, Dataset, <a href="https://doi.org/10.5061/dryad.m0cfxpp2c" class="external-link">https://doi.org/10.5061/dryad.m0cfxpp2c</a></p>
+</blockquote>
 <section id="data-sets"><h2 class="section-heading">Data Sets<a class="anchor" aria-label="anchor" href="#data-sets"></a>
 </h2>
-<hr class="half-width"><p>Download the <a href="data/data.zip">data zip file</a> and unzip it
-to your Desktop</p>
+<hr class="half-width"><p>For this lesson, the data have been modified to support the lesson
+objectives without requiring a download of the full source dataset from
+Dryad. Because the source data are large and require cleaning,
+additional steps have been taken to generate a subset ready for use in
+this lesson. These steps include:</p>
+<ul><li>Excluding data from meters that were not participating for the full
+period between January 1, 2014 and December 31, 2019.</li>
+<li>Excluding data from meters that have missing or duplicate readings,
+or other anomalies.</li>
+<li>Further limiting the included date ranges to exclude common outliers
+across datasets due to weather events, power outages, or other
+causes.</li>
+<li>Selection of the final set of 15 data files based on inspection of
+plots and completeness of the data.</li>
+</ul><p>At the outset of a lesson, learners are recommended to create a
+project directory.</p>
+<ol style="list-style-type: decimal"><li>
+<strong>Download</strong> this data file to your computer: <a href="https://digitalrepository.unm.edu/context/library_data/article/1003/type/native/viewcontent" class="external-link">Smart
+meter data subset</a>
+</li>
+<li>Within a directory on their system for which learners have read and
+write permissions (user home, desktop, or similar), create a directory
+named <em>pandas_timeseries</em>.</li>
+<li>In the <em>pandas_timeseries</em> directory, create a subdirectory
+named <em>data.</em> Unzip the downloaded data into this directory.</li>
+<li>In the <em>pandas_timeseries</em> directory, create two more
+directories, <em>scripts</em> and <em>figures</em>.</li>
+</ol><p>Throughout the lesson, we will be creating scripts in the
+<em>scripts</em> directory. If using Jupyter Notebooks, be sure to
+navigate to this directory before creating new notebooks!</p>
 </section><section id="software-setup"><h2 class="section-heading">Software Setup<a class="anchor" aria-label="anchor" href="#software-setup"></a>
 </h2>
 <hr class="half-width"><div id="details" class="callout discussion">
@@ -237,11 +275,13 @@ to your Desktop</p>
 <h3 class="callout-title">Details<a class="anchor" aria-label="anchor" href="#details"></a>
 </h3>
 <div class="callout-content">
-<p>Setup for different systems can be presented in dropdown menus via a
-<code>solution</code> tag. They will join to this discussion block, so
-you can give a general overview of the software used in this lesson here
-and fill out the individual operating systems (and potentially add more,
-e.g. online setup) in the solutions blocks.</p>
+<p>The lesson is written in Python. We recommend the Anaconda Python
+distribution, which is available for all operating systems and comes
+with most of the necessary libraries installed. Information on how to
+download and install for different operating systems is available from
+the <a href="https://www.anaconda.com/download" class="external-link">Anaconda</a>
+website.</p>
+<p>There are different options for running a Python environment.</p>
 </div>
 </div>
 </div>
@@ -249,12 +289,12 @@ e.g. online setup) in the solutions blocks.</p>
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">
-  Windows
+  Using Jupyter Notebook
   </h4>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
-<p>Use PuTTY</p>
+
 </div>
 </div>
 </div>
@@ -263,13 +303,14 @@ e.g. online setup) in the solutions blocks.</p>
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">
-  MacOS
+  Using your preferred IDE
   </h4>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
-<p>Use Terminal.app</p>
-</div>
+<ul><li>Spyder</li>
+<li>PyCharm</li>
+</ul></div>
 </div>
 </div>
 </div>
@@ -277,13 +318,14 @@ e.g. online setup) in the solutions blocks.</p>
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">
-  Linux
+  Using a command line client
   </h4>
 </button>
 <div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
-<p>Use Terminal</p>
-</div>
+<ol style="list-style-type: decimal"><li>Open a shell and enter <code>python3</code>
+</li>
+</ol></div>
 </div>
 </div>
 </div>
@@ -340,9 +382,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://carpentries.github.io/workbench-template-md/index.html",
   "identifier": "https://carpentries.github.io/workbench-template-md/index.html",
-  "dateCreated": "2023-05-02",
-  "dateModified": "2023-08-08",
-  "datePublished": "2023-08-08"
+  "dateCreated": "2023-08-12",
+  "dateModified": "2023-08-12",
+  "datePublished": "2023-08-12"
 }
 
   </script><script>
