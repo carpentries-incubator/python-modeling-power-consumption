@@ -11,7 +11,7 @@
 carpentry: incubator
 
 # Overall title for pages.
-title: Lesson Title
+title: Modeling Power Consumption with Python
 
 # Date the lesson was created (YYYY-MM-DD, this is empty by default)
 created: ~
@@ -27,29 +27,29 @@ life_cycle: pre-alpha
 license: CC-BY 4.0
 
 # Link to the source repository for this lesson
-source: https://github.com/carpentries/workbench-template-md
+source: https://github.com/carpentries-incubator/python-modeling-power-consumption
 
 # Default branch of your lesson
 branch: main
 
 # Who to contact if there are any issues
-contact: team@carpentries.org
+contact: jwheel01@unm.edu
 
 # Navigation ------------------------------------------------
-# 
+#
 # Use the following menu items to specify the order of
 # individual pages in each dropdown section. Leave blank to
 # include all pages in the folder.
 #
 # Example -------------
-# 
+#
 # episodes:
 # - introduction.md
 # - first-steps.md
-# 
+#
 # learners:
 # - setup.md
-# 
+#
 # instructors:
 # - instructor-notes.md
 #
@@ -57,15 +57,17 @@ contact: team@carpentries.org
 # - one-learner.md
 # - another-learner.md
 
-# Order of episodes in your lesson 
-episodes: 
+# Order of episodes in your lesson
+episodes:
+- 01-introduction.md
+- 02-baseline-forecasts.md
 
 # Information for Learners
-learners: 
+learners:
 
 # Information for Instructors
-instructors: 
+instructors:
 
 # Learner Profiles
-profiles: 
+profiles:
 
