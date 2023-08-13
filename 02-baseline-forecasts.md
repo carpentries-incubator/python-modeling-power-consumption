@@ -96,11 +96,6 @@ memory usage: 4.8+ MB
 
 
 
-
-
-
-
-
 ::::::::::::::::::::::::::::::::::::: keypoints
 
 - Use *test* and *train* datasets to evaluate the performance of different
