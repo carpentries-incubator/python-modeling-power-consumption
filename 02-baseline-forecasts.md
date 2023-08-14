@@ -163,8 +163,111 @@ fig.autofmt_xdate()
 plt.tight_layout()
 ```
 
-![Plot of weekly readings from a single meter, 2019](./fig/ep2_fig2_plot_weekly.png)
+![Plot of total weekly readings from a single meter, January - June, 2019](./fig/ep2_fig2_plot_weekly.png)
 
+## Create subsets for training and testing forecasts
+
+Throughout this lesson, as we develop more robust forecasting models we need
+to train the models using a large subset of our data to derive the metrics
+that define each type of forecast. Models are then evaluated by comparing
+forecast values against actual values in a test dataset.
+
+Using a rough estimate of four weeks in a month, we will test our baseline
+forecasts using various methods to predict the last four weeks of power
+consumption based on values in the test dataset. Then we will compare 
+the forecast against the actual values in the test dataset.
+
+```python
+train = weekly_usage[:-4].copy()
+test = weekly_usage[-5:].copy()
+
+print(train.info())
+print(test.info())
+```
+
+```output
+<class 'pandas.core.frame.DataFrame'>
+DatetimeIndex: 19 entries, 2019-03-03 to 2019-07-07
+Freq: W-SUN
+Data columns (total 1 columns):
+ #   Column         Non-Null Count  Dtype  
+---  ------         --------------  -----  
+ 0   INTERVAL_READ  19 non-null     float64
+dtypes: float64(1)
+memory usage: 304.0 bytes
+None
+
+<class 'pandas.core.frame.DataFrame'>
+DatetimeIndex: 5 entries, 2019-07-07 to 2019-08-04
+Freq: W-SUN
+Data columns (total 1 columns):
+ #   Column         Non-Null Count  Dtype  
+---  ------         --------------  -----  
+ 0   INTERVAL_READ  5 non-null      float64
+dtypes: float64(1)
+memory usage: 80.0 bytes
+None
+```
+
+## Forecast using the historical mean
+
+The first baseline or *naive* forecast method we will use is the historical
+mean. Here, we calculate the mean weekly power consumption across the
+training dataset.
+
+```python
+# get the mean of the training set
+historical_mean = np.mean(train['INTERVAL_READ'])
+print("Historical mean of the training data:", historical_mean)
+```
+
+```output
+Historical mean of the training data: 120.7503157894737
+```
+We then use this value as the value of the weekly forecast for all four
+weeks of the test dataset.
+
+```python
+test.loc[:, 'pred_mean'] = historical_mean
+```
+Plotting the forecast shows that the same value has been applied to each 
+week of the test dataset.
+
+![Plot of total weekly readings from a single meter, January - June, 2019](./fig/ep2_fig3_plot_historical_mean.png)
+
+The above plot is a qualitative method of evaluating the accuracy of the 
+historical mean for forecasting our time series. Intuitively, we can see
+that it is not very accurate. 
+
+Quantitatively, we can evaluate the accuracy of the forecasts based on the 
+*mean absolute percentage error*. We will be using this method to evaluate
+all of our baseline forecasts, so we will define a function for it. 
+
+The following is taken from Marco Peixeiro, *Time series forecasting in Python*:
+
+> Peixeiro, Marco. Time Series Forecasting in Python. [First edition]. Manning Publications Co., 2022.
+
+```python
+# Mean absolute percentage error
+# measure of prediction accuracy for forecasting methods
+
+def mape(y_true, y_pred):
+    return np.mean(np.abs((y_true - y_pred)/ y_true)) * 100
+```
+
+Now we can calculate the mean average percentage error of the historical
+mean as a forecasting method.
+
+```python
+mape_hist_mean = mape(test['INTERVAL_READ'], test['pred_mean'])
+print("MAPE of historical mean", mape_hist_mean)
+```
+```output
+MAPE of historical mean: 31.44822521573767
+```
+
+The high MAPE value suggests that, for these data, the historical mean is not
+an accurate forecasting method. 
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
