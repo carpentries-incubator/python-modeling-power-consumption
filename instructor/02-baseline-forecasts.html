@@ -168,6 +168,8 @@
 <li><a href="#create-subsets-for-training-and-testing-forecasts">Create subsets for training and testing forecasts</a></li>
 <li><a href="#forecast-using-the-historical-mean">Forecast using the historical mean</a></li>
 <li><a href="#forecast-using-the-mean-of-the-previous-timestamp">Forecast using the mean of the previous timestamp</a></li>
+<li><a href="#forecasting-using-the-last-known-value">Forecasting using the last known value</a></li>
+<li><a href="#forecasting-using-the-previous-timestep">Forecasting using the previous timestep</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
         
@@ -608,6 +610,137 @@ mean average percentage error as well.</p>
 </div>
 <p>The result is a slight improvement over the previous method, but
 still not very accurate.</p>
+</section><section id="forecasting-using-the-last-known-value"><h2 class="section-heading">Forecasting using the last known value<a class="anchor" aria-label="anchor" href="#forecasting-using-the-last-known-value"></a>
+</h2>
+<hr class="half-width"><p>In addition the mean across the previous timestep, we can also
+forecast using the last recorded value in the training dataset.</p>
+<div class="codewrapper sourceCode" id="cb26">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>last <span class="op">=</span> train[<span class="st">'INTERVAL_READ'</span>].iloc[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Last recorded value in the training dataset:"</span>, last)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Last recorded value in the training dataset: 129.1278</code></pre>
+</div>
+<p>Apply this value to the training dataset.</p>
+<div class="codewrapper sourceCode" id="cb28">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>test.loc[:, <span class="st">'pred_last'</span>] <span class="op">=</span> last</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test.head())</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>               INTERVAL_READ   pred_mean  pred_last_mo_mean  pred_last
+INTERVAL_TIME                                                         
+2019-07-07          129.1278  120.750316          139.55055   129.1278
+2019-07-14          149.2956  120.750316          139.55055   129.1278
+2019-07-21          144.6612  120.750316          139.55055   129.1278
+2019-07-28          148.4286  120.750316          139.55055   129.1278
+2019-08-04           61.4640  120.750316          139.55055   129.1278</code></pre>
+</div>
+<p>Evaluate the forecast by plotting the result and calculating the mean
+average percentage error.</p>
+<div class="codewrapper sourceCode" id="cb30">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>ax.plot(train[<span class="st">'INTERVAL_READ'</span>], <span class="st">'g-.'</span>, label<span class="op">=</span><span class="st">'Train'</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'INTERVAL_READ'</span>], <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'Test'</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_last'</span>], <span class="st">'r--'</span>, label<span class="op">=</span><span class="st">'Predicted'</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Daily power consumption'</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+</div>
+<figure><img src=".././fig/ep2_fig5_plot_prev_value.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of total weekly readings from a single meter,
+January - June, 2019</figcaption></figure><div class="codewrapper sourceCode" id="cb31">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>mape_last <span class="op">=</span> mape(test[<span class="st">'INTERVAL_READ'</span>], test[<span class="st">'pred_last'</span>])</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MAPE of the mean of the last recorded value forecast:"</span>, mape_last)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>MAPE of the mean of the last recorded value forecast: 29.46734391639027</code></pre>
+</div>
+<p>Here the mean average percentage error indicates another slight
+improvement in the forecast that may not be apparent in the plot.</p>
+</section><section id="forecasting-using-the-previous-timestep"><h2 class="section-heading">Forecasting using the previous timestep<a class="anchor" aria-label="anchor" href="#forecasting-using-the-previous-timestep"></a>
+</h2>
+<hr class="half-width"><p>So far we have used the mean of the previous timestep - in the
+current case the average power consumption across the last four weeks of
+the training dataset - as well as the last recorded value.</p>
+<p>A final method for baseline forecasting uses the actual values of the
+previous timestep. This is similar to taking the last recorded value, as
+above, only this time the number of known values is equal to the number
+of rows in the test dataset. This method accounts somewhat for the
+seasonal trend we see in the data.</p>
+<p>In this case, we can a difference between this and other baseline
+forecasts in that we are no longer applying a single value to each row
+of the test dataset.</p>
+<div class="codewrapper sourceCode" id="cb33">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>test.loc[:, <span class="st">'pred_last_month'</span>] <span class="op">=</span> train[<span class="st">'INTERVAL_READ'</span>][<span class="op">-</span><span class="dv">5</span>:].values</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test.head())</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>               INTERVAL_READ   pred_mean  ...  pred_last  pred_last_month
+INTERVAL_TIME                             ...                            
+2019-07-07          129.1278  120.750316  ...   129.1278         121.9458
+2019-07-14          149.2956  120.750316  ...   129.1278         148.0386
+2019-07-21          144.6612  120.750316  ...   129.1278         134.2614
+2019-07-28          148.4286  120.750316  ...   129.1278         146.7744
+2019-08-04           61.4640  120.750316  ...   129.1278         129.1278
+
+[5 rows x 5 columns]</code></pre>
+</div>
+<p>Plotting the forecast and calculating the mean average percentage
+error once again demonstrate some improvement over previous
+forecasts.</p>
+<div class="codewrapper sourceCode" id="cb35">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>ax.plot(train[<span class="st">'INTERVAL_READ'</span>], <span class="st">'g-.'</span>, label<span class="op">=</span><span class="st">'Train'</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'INTERVAL_READ'</span>], <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'Test'</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_last_month'</span>], <span class="st">'r--'</span>, label<span class="op">=</span><span class="st">'Predicted'</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Daily power consumption'</span>)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+</div>
+<figure><img src=".././fig/ep2_fig6_plot_prev_timestep_value.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of total weekly readings from a single meter,
+January - June, 2019</figcaption></figure><div class="codewrapper sourceCode" id="cb36">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>pe_naive_seasonal <span class="op">=</span> mape(test[<span class="st">'INTERVAL_READ'</span>], test[<span class="st">'pred_last_month'</span>])</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MAPE of forecast using previous timestep values:"</span>, mape_naive_seasonal)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>MAPE of forecast using previous timestep values: 24.95886287091312</code></pre>
+</div>
+<p>A mean average percentage error of 25, while an improvement in this
+case over other baseline forecasts, is still not very good. However,
+these baselines have value in themselves because they also serve as
+measurements we can use to evaluate other forecasting methods going
+forward.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
