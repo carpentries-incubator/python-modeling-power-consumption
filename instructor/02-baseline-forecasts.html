@@ -164,6 +164,7 @@
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#introduction">Introduction</a></li>
+<li><a href="#about-the-code">About the code</a></li>
 <li><a href="#create-a-data-subset-for-basline-forecasting">Create a data subset for basline forecasting</a></li>
 <li><a href="#create-subsets-for-training-and-testing-forecasts">Create subsets for training and testing forecasts</a></li>
 <li><a href="#forecast-using-the-historical-mean">Forecast using the historical mean</a></li>
@@ -279,7 +280,26 @@ define a timestep and base predictions using</p>
 <li>the last known value, or</li>
 <li>a naive seasonal baseline based upon a pairwise comparison of a set
 of previous timesteps.</li>
-</ul></section><section id="create-a-data-subset-for-basline-forecasting"><h2 class="section-heading">Create a data subset for basline forecasting<a class="anchor" aria-label="anchor" href="#create-a-data-subset-for-basline-forecasting"></a>
+</ul></section><section id="about-the-code"><h2 class="section-heading">About the code<a class="anchor" aria-label="anchor" href="#about-the-code"></a>
+</h2>
+<hr class="half-width"><p>The code used in this lesson is based on and, in some cases, a direct
+application of code used in the Manning Publications title, <em>Time
+series forecasting in Python</em>, by Marco Peixeiro.</p>
+<blockquote>
+<p>Peixeiro, Marco. Time Series Forecasting in Python. [First edition].
+Manning Publications Co., 2022.</p>
+</blockquote>
+<p>The original code from the book is made available under an <a href="https://github.com/marcopeix/TimeSeriesForecastingInPython/blob/master/LICENSE.txt" class="external-link">Apache
+2.0 license</a>. Use and application of the code in these materials is
+within the license terms, although this lesson itself is licensed under
+a Creative Commons <a href="https://creativecommons.org/licenses/by/4.0/legalcode" class="external-link">CC-BY 4.0
+license</a>. Any further use or adaptation of these materials should
+cite the source code developed by Peixeiro:</p>
+<blockquote>
+<p>Peixeiro, Marco. Timeseries Forecasting in Python [Software code].
+2022. Accessed from <a href="https://github.com/marcopeix/TimeSeriesForecastingInPython" class="external-link">https://github.com/marcopeix/TimeSeriesForecastingInPython</a>.</p>
+</blockquote>
+</section><section id="create-a-data-subset-for-basline-forecasting"><h2 class="section-heading">Create a data subset for basline forecasting<a class="anchor" aria-label="anchor" href="#create-a-data-subset-for-basline-forecasting"></a>
 </h2>
 <hr class="half-width"><p>Rather than read a previously edited dataset, for each of the
 episodes in this lesson we will read in data from one or more of the Los
@@ -504,12 +524,6 @@ see that it is not very accurate.</p>
 on the <em>mean absolute percentage error</em>. We will be using this
 method to evaluate all of our baseline forecasts, so we will define a
 function for it.</p>
-<p>The following is taken from Marco Peixeiro, <em>Time series
-forecasting in Python</em>:</p>
-<blockquote>
-<p>Peixeiro, Marco. Time Series Forecasting in Python. [First edition].
-Manning Publications Co., 2022.</p>
-</blockquote>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
