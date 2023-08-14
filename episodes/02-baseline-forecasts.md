@@ -233,6 +233,20 @@ test.loc[:, 'pred_mean'] = historical_mean
 Plotting the forecast shows that the same value has been applied to each 
 week of the test dataset.
 
+```python
+fig, ax = plt.subplots()
+ 
+ax.plot(train['INTERVAL_READ'], 'g-.', label='Train')
+ax.plot(test['INTERVAL_READ'], 'b-', label='Test')
+ax.plot(test['pred_mean'], 'r--', label='Predicted')
+ax.set_xlabel('Date')
+ax.set_ylabel('Weekly power consumption')
+ax.legend(loc=2)
+
+fig.autofmt_xdate()
+plt.tight_layout()
+```
+
 ![Plot of total weekly readings from a single meter, January - June, 2019](./fig/ep2_fig3_plot_historical_mean.png)
 
 The above plot is a qualitative method of evaluating the accuracy of the 
@@ -266,8 +280,83 @@ print("MAPE of historical mean", mape_hist_mean)
 MAPE of historical mean: 31.44822521573767
 ```
 
-The high MAPE value suggests that, for these data, the historical mean is not
-an accurate forecasting method. 
+The high mean average percentage error value suggests that, for these data, 
+the historical mean is not an accurate forecasting method. 
+
+## Forecast using the mean of the previous timestamp
+
+One source of the error in forecasting with the historical mean can be the
+amount of data, which over longer timeframes can introduce seasonal trends. As
+an alternative to the historic mean, we can also forecast using the mean of
+the previous timestep. Since we are forecasting power consumption over a period
+of four weeks, this means we can use the mean power consumption within the
+last four weeks of the training dataset as our forecast.
+
+Since our data have been resampled to a weekly frequency, we will calculate
+the average power consumption across the last four rows.
+
+```python
+# baseline using mean of last four weeks of training set
+
+last_month_mean = np.mean(train['INTERVAL_READ'][-4:])
+print("Mean of previous timestep:", last_month_mean)
+```
+
+```output
+Mean of previous timestep: 139.55055000000002
+```
+
+Apply this to the test dataset. Selecting the data using the ```head()```
+command shows that the value calculated above has been applied to each row.
+
+```python
+test.loc[:, 'pred_last_mo_mean'] =  last_month_mean
+print(test.head())
+```
+
+```output
+               INTERVAL_READ   pred_mean  pred_last_mo_mean
+INTERVAL_TIME                                              
+2019-07-07          129.1278  120.750316          139.55055
+2019-07-14          149.2956  120.750316          139.55055
+2019-07-21          144.6612  120.750316          139.55055
+2019-07-28          148.4286  120.750316          139.55055
+2019-08-04           61.4640  120.750316          139.55055
+```
+
+```python
+fig, ax = plt.subplots()
+ 
+ax.plot(train['INTERVAL_READ'], 'g-.', label='Train')
+ax.plot(test['INTERVAL_READ'], 'b-', label='Test')
+ax.plot(test['pred_last_mo_mean'], 'r--', label='Predicted')
+ax.set_xlabel('Date')
+ax.set_ylabel('Daily power consumption')
+ax.legend(loc=2)
+
+fig.autofmt_xdate()
+plt.tight_layout()
+```
+
+![Plot of total weekly readings from a single meter, January - June, 2019](./fig/ep2_fig4_plot_prev_timestamp_mean.png)
+
+Plotting the data suggests that this forecast may be more accurate than the
+historical mean, but we will evaluate the forecast using the mean average
+percentage error as well.
+
+```python
+mape_last_month_mean = mape(test['INTERVAL_READ'], test['pred_last_mo_mean'])
+print("MAPE of the mean of the previous timestep forecast:", mape_last_month_mean)
+```
+
+```output
+MAPE of the mean of the previous timestep forecast: 30.231515216486425
+```
+
+The result is a slight improvement over the previous method, but still not very
+accurate.
+
+
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
