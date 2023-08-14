@@ -167,6 +167,7 @@
 <li><a href="#create-a-data-subset-for-basline-forecasting">Create a data subset for basline forecasting</a></li>
 <li><a href="#create-subsets-for-training-and-testing-forecasts">Create subsets for training and testing forecasts</a></li>
 <li><a href="#forecast-using-the-historical-mean">Forecast using the historical mean</a></li>
+<li><a href="#forecast-using-the-mean-of-the-previous-timestamp">Forecast using the mean of the previous timestamp</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
         
@@ -478,6 +479,21 @@ four weeks of the test dataset.</p>
 </div>
 <p>Plotting the forecast shows that the same value has been applied to
 each week of the test dataset.</p>
+<div class="codewrapper sourceCode" id="cb15">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ax.plot(train[<span class="st">'INTERVAL_READ'</span>], <span class="st">'g-.'</span>, label<span class="op">=</span><span class="st">'Train'</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'INTERVAL_READ'</span>], <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'Test'</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_mean'</span>], <span class="st">'r--'</span>, label<span class="op">=</span><span class="st">'Predicted'</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Weekly power consumption'</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+</div>
 <figure><img src=".././fig/ep2_fig3_plot_historical_mean.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of total weekly readings from a single meter,
 January - June, 2019</figcaption></figure><p>The above plot is a qualitative method of evaluating the accuracy of
 the historical mean for forecasting our time series. Intuitively, we can
@@ -492,30 +508,106 @@ forecasting in Python</em>:</p>
 <p>Peixeiro, Marco. Time Series Forecasting in Python. [First edition].
 Manning Publications Co., 2022.</p>
 </blockquote>
-<div class="codewrapper sourceCode" id="cb15">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean absolute percentage error</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># measure of prediction accuracy for forecasting methods</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mape(y_true, y_pred):</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.mean(np.<span class="bu">abs</span>((y_true <span class="op">-</span> y_pred)<span class="op">/</span> y_true)) <span class="op">*</span> <span class="dv">100</span></span></code></pre>
-</div>
-<p>Now we can calculate the mean average percentage error of the
-historical mean as a forecasting method.</p>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mape_hist_mean <span class="op">=</span> mape(test[<span class="st">'INTERVAL_READ'</span>], test[<span class="st">'pred_mean'</span>])</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MAPE of historical mean"</span>, mape_hist_mean)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean absolute percentage error</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># measure of prediction accuracy for forecasting methods</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mape(y_true, y_pred):</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.mean(np.<span class="bu">abs</span>((y_true <span class="op">-</span> y_pred)<span class="op">/</span> y_true)) <span class="op">*</span> <span class="dv">100</span></span></code></pre>
+</div>
+<p>Now we can calculate the mean average percentage error of the
+historical mean as a forecasting method.</p>
+<div class="codewrapper sourceCode" id="cb17">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mape_hist_mean <span class="op">=</span> mape(test[<span class="st">'INTERVAL_READ'</span>], test[<span class="st">'pred_mean'</span>])</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MAPE of historical mean"</span>, mape_hist_mean)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>MAPE of historical mean: 31.44822521573767</code></pre>
 </div>
-<p>The high MAPE value suggests that, for these data, the historical
-mean is not an accurate forecasting method.</p>
+<p>The high mean average percentage error value suggests that, for these
+data, the historical mean is not an accurate forecasting method.</p>
+</section><section id="forecast-using-the-mean-of-the-previous-timestamp"><h2 class="section-heading">Forecast using the mean of the previous timestamp<a class="anchor" aria-label="anchor" href="#forecast-using-the-mean-of-the-previous-timestamp"></a>
+</h2>
+<hr class="half-width"><p>One source of the error in forecasting with the historical mean can
+be the amount of data, which over longer timeframes can introduce
+seasonal trends. As an alternative to the historic mean, we can also
+forecast using the mean of the previous timestep. Since we are
+forecasting power consumption over a period of four weeks, this means we
+can use the mean power consumption within the last four weeks of the
+training dataset as our forecast.</p>
+<p>Since our data have been resampled to a weekly frequency, we will
+calculate the average power consumption across the last four rows.</p>
+<div class="codewrapper sourceCode" id="cb19">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># baseline using mean of last four weeks of training set</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>last_month_mean <span class="op">=</span> np.mean(train[<span class="st">'INTERVAL_READ'</span>][<span class="op">-</span><span class="dv">4</span>:])</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mean of previous timestep:"</span>, last_month_mean)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Mean of previous timestep: 139.55055000000002</code></pre>
+</div>
+<p>Apply this to the test dataset. Selecting the data using the
+<code>head()</code> command shows that the value calculated above has
+been applied to each row.</p>
+<div class="codewrapper sourceCode" id="cb21">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>test.loc[:, <span class="st">'pred_last_mo_mean'</span>] <span class="op">=</span>  last_month_mean</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test.head())</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>               INTERVAL_READ   pred_mean  pred_last_mo_mean
+INTERVAL_TIME                                              
+2019-07-07          129.1278  120.750316          139.55055
+2019-07-14          149.2956  120.750316          139.55055
+2019-07-21          144.6612  120.750316          139.55055
+2019-07-28          148.4286  120.750316          139.55055
+2019-08-04           61.4640  120.750316          139.55055</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb23">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>ax.plot(train[<span class="st">'INTERVAL_READ'</span>], <span class="st">'g-.'</span>, label<span class="op">=</span><span class="st">'Train'</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'INTERVAL_READ'</span>], <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'Test'</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_last_mo_mean'</span>], <span class="st">'r--'</span>, label<span class="op">=</span><span class="st">'Predicted'</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Daily power consumption'</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+</div>
+<figure><img src=".././fig/ep2_fig4_plot_prev_timestamp_mean.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of total weekly readings from a single meter,
+January - June, 2019</figcaption></figure><p>Plotting the data suggests that this forecast may be more accurate
+than the historical mean, but we will evaluate the forecast using the
+mean average percentage error as well.</p>
+<div class="codewrapper sourceCode" id="cb24">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mape_last_month_mean <span class="op">=</span> mape(test[<span class="st">'INTERVAL_READ'</span>], test[<span class="st">'pred_last_mo_mean'</span>])</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MAPE of the mean of the previous timestep forecast:"</span>, mape_last_month_mean)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>MAPE of the mean of the previous timestep forecast: 30.231515216486425</code></pre>
+</div>
+<p>The result is a slight improvement over the previous method, but
+still not very accurate.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
