@@ -34,6 +34,23 @@ timestep and base predictions using
 - a naive seasonal baseline based upon a pairwise comparison of a set of 
 previous timesteps.
 
+## About the code
+
+The code used in this lesson is based on and, in some cases, a direct 
+application of code used in the Manning Publications title, *Time series forecasting in Python*, by Marco Peixeiro.
+
+> Peixeiro, Marco. Time Series Forecasting in Python. [First edition]. Manning Publications Co., 2022.
+
+The original code from the book is made available under an 
+[Apache 2.0 license](https://github.com/marcopeix/TimeSeriesForecastingInPython/blob/master/LICENSE.txt). Use and application of the code in these materials is within
+the license terms, although this lesson itself is licensed under a Creative Commons
+[CC-BY 4.0 license](https://creativecommons.org/licenses/by/4.0/legalcode). Any
+further use or adaptation of these materials should cite the source code
+developed by Peixeiro:
+
+> Peixeiro, Marco. Timeseries Forecasting in Python [Software code]. 2022.
+Accessed from [https://github.com/marcopeix/TimeSeriesForecastingInPython](https://github.com/marcopeix/TimeSeriesForecastingInPython).
+
 ## Create a data subset for basline forecasting
 
 Rather than read a previously edited dataset, for each of the episodes in this
@@ -256,10 +273,6 @@ that it is not very accurate.
 Quantitatively, we can evaluate the accuracy of the forecasts based on the 
 *mean absolute percentage error*. We will be using this method to evaluate
 all of our baseline forecasts, so we will define a function for it. 
-
-The following is taken from Marco Peixeiro, *Time series forecasting in Python*:
-
-> Peixeiro, Marco. Time Series Forecasting in Python. [First edition]. Manning Publications Co., 2022.
 
 ```python
 # Mean absolute percentage error
