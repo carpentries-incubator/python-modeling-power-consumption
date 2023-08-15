@@ -878,7 +878,7 @@ any links that you are not going to use.
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul>
-<li>Question here</li>
+<li>How can we analyze time-series data with trends?</li>
 </ul>
 </div>
 </div>
@@ -888,7 +888,8 @@ any links that you are not going to use.
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Create a stationary time-series</li>
+<li>Create a stationary time-series.</li>
+<li>Test for autocorrelation of time series values.</li>
 </ul>
 </div>
 </div>
@@ -897,9 +898,54 @@ any links that you are not going to use.
 </div>
 <section id="introduction"><h2 class="section-heading">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<hr class="half-width"></section><section id="create-subset"><h2 class="section-heading">Create subset<a class="anchor" aria-label="anchor" href="#create-subset"></a>
+<hr class="half-width">
+<p>In the previous section, we used baseline metrics to forecast one or
+more timesteps of a time-series dataset. These forecasts help
+demonstrate some of the characteristic features of time-series, but as
+we saw when we evaluated the results they may not make very accurate
+forecasts. There are some types of random time-series data for which
+using a baseline metric to forecast a single timestamp ahead is the only
+option. Since that doesn’t apply to the smart meter data - that is,
+power consumption values are not random - we will pass over that topic
+for now.</p>
+<p>Instead, the smart meter data have characteristics that make them
+good candidates for methods that account for trends, auto-correlation,
+and one or more types of seasonality. We will develop these concepts
+over the next several lessons, beginning here with autocorrelation and
+the use of moving averages to make forecasts using autocorrelated
+data.</p>
+</section><section id="about-the-code"><h2 class="section-heading">About the code<a class="anchor" aria-label="anchor" href="#about-the-code"></a>
 </h2>
 <hr class="half-width">
+<p>The code used in this lesson is based on and, in some cases, a direct
+application of code used in the Manning Publications title, <em>Time
+series forecasting in Python</em>, by Marco Peixeiro.</p>
+<blockquote>
+<p>Peixeiro, Marco. Time Series Forecasting in Python. [First edition].
+Manning Publications Co., 2022.</p>
+</blockquote>
+<p>The original code from the book is made available under an <a href="https://github.com/marcopeix/TimeSeriesForecastingInPython/blob/master/LICENSE.txt" class="external-link">Apache
+2.0 license</a>. Use and application of the code in these materials is
+within the license terms, although this lesson itself is licensed under
+a Creative Commons <a href="https://creativecommons.org/licenses/by/4.0/legalcode" class="external-link">CC-BY 4.0
+license</a>. Any further use or adaptation of these materials should
+cite the source code developed by Peixeiro:</p>
+<blockquote>
+<p>Peixeiro, Marco. Timeseries Forecasting in Python [Software code].
+2022. Accessed from <a href="https://github.com/marcopeix/TimeSeriesForecastingInPython" class="external-link">https://github.com/marcopeix/TimeSeriesForecastingInPython</a>.</p>
+</blockquote>
+</section><section id="create-a-subset-to-demonstrate-autocorrelation"><h2 class="section-heading">Create a subset to demonstrate autocorrelation<a class="anchor" aria-label="anchor" href="#create-a-subset-to-demonstrate-autocorrelation"></a>
+</h2>
+<hr class="half-width">
+<p>As we did in the previous episode, rather than read a dataset that is
+ready for analysis we are going to read one of the smart meter datasets
+and create a subset that demonstrates the characteristics of interest
+for this section of the lesson.</p>
+<p>First we will import the necessary libraries. Note that in additional
+to Pandas, Numpy, and Matplotlib we are also importing modules from
+<code>statsmodels</code> and <code>sklearn</code>. These are Python
+libraries that come with many methods for modeling and machine
+learning.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -912,6 +958,177 @@ any links that you are not going to use.
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_absolute_error</span></code></pre>
 </div>
+<p>Read the data. In this case we are using just a single smart
+meter.</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../../data/ladpu_smart_meter_data_01.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.info())</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 105012 entries, 0 to 105011
+Data columns (total 5 columns):
+ #   Column         Non-Null Count   Dtype  
+---  ------         --------------   -----  
+ 0   INTERVAL_TIME  105012 non-null  object 
+ 1   METER_FID      105012 non-null  int64  
+ 2   START_READ     105012 non-null  float64
+ 3   END_READ       105012 non-null  float64
+ 4   INTERVAL_READ  105012 non-null  float64
+dtypes: float64(3), int64(1), object(1)
+memory usage: 4.0+ MB
+None</code></pre>
+</div>
+<p>Set the datetime index and resample to a daily frequency.</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df.set_index(pd.to_datetime(df[<span class="st">"INTERVAL_TIME"</span>]), inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df.sort_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.info())</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+DatetimeIndex: 105012 entries, 2017-01-01 00:00:00 to 2019-12-31 23:45:00
+Data columns (total 5 columns):
+ #   Column         Non-Null Count   Dtype  
+---  ------         --------------   -----  
+ 0   INTERVAL_TIME  105012 non-null  object 
+ 1   METER_FID      105012 non-null  int64  
+ 2   START_READ     105012 non-null  float64
+ 3   END_READ       105012 non-null  float64
+ 4   INTERVAL_READ  105012 non-null  float64
+dtypes: float64(3), int64(1), object(1)
+memory usage: 4.8+ MB
+None</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>daily_data <span class="op">=</span> pd.DataFrame(df.resample(<span class="st">"D"</span>)[<span class="st">"INTERVAL_READ"</span>].<span class="bu">sum</span>())</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(daily_data.head())</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>               INTERVAL_READ
+INTERVAL_TIME               
+2017-01-01           11.7546
+2017-01-02           15.0690
+2017-01-03           11.6406
+2017-01-04           22.0788
+2017-01-05           12.8070</code></pre>
+</div>
+<p>Subset to January - July, 2019 and plot the data.</p>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>jan_july_2019 <span class="op">=</span> daily_data.loc[<span class="st">"2019-01"</span>: <span class="st">"2019-07"</span>].copy()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>jan_july_2019[<span class="st">"INTERVAL_READ"</span>].plot()</span></code></pre>
+</div>
+<figure><img src="./fig/ep3_fig1.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of daily total power consumption from a single
+smart meter.</figcaption></figure><p>The above plot demonstrates a gradual trend towards increased power
+consumption through late spring and into summer. This is expected -
+power consumption in US households tends to increase as the weather
+becomes warmer and people begin to use air conditioners or evaporative
+coolers.</p>
+<p>In order to make a forecast, however, the data need to be stationary.
+That is, we need to remove trends from the data. We can test for
+stationarity using the <code>adfuller</code> function from
+<code>statsmodels</code>.</p>
+<div class="codewrapper sourceCode" id="cb9">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>adfuller_test <span class="op">=</span> adfuller(jan_july_2019[<span class="st">"INTERVAL_READ"</span>])</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'ADFuller result: </span><span class="sc">{</span>adfuller_test[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'p-value: </span><span class="sc">{</span>adfuller_test[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">'</span>)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>ADFuller result: -2.533089941397639
+p-value: 0.10762933815081588</code></pre>
+</div>
+<p>The p-value above is greater than 0.05, which in this case indicates
+that the data are not stationary. That is, there is a trend in the
+data.</p>
+<p>We also want to test for autocorrelation. As noted above, our data
+are not random - recorded values of power consumption can be dependent
+on other variables, including in this case the previous value. This is
+known as <em>autocorrelation</em>, and the <code>statsmodels</code>
+library also a function for plotting the presence of
+autocorrelation.</p>
+<div class="codewrapper sourceCode" id="cb11">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>plot_acf(jan_july_2019[<span class="st">"INTERVAL_READ"</span>], lags<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+</div>
+<figure><img src="./fig/ep3_fig2.png" alt="" class="figure mx-auto d-block"><figcaption>Plot showing autocorrelation of daily total power
+consumption.</figcaption></figure><p>The plot above shows significant autocorrelation up to the 16th lag.
+Before we can make forecasts on the data, we need to make the data
+stationary by removing the trend using a technique called
+<em>differencing</em>. Differencing also reduces the amount of
+autocorrelation in the data.</p>
+<p>Differencing data this way creates a Numpy array of values that
+represent the difference between one <em>INTERVAL_READ</em> value and
+the next. We can see this by comparing the head of the jan_july_2019
+dataframe with the first five differenced values.</p>
+<div class="codewrapper sourceCode" id="cb12">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>jan_july_2019_differenced <span class="op">=</span> np.diff(jan_july_2019[<span class="st">"INTERVAL_READ"</span>], n<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Head of dataframe:"</span>, jan_july_2019.head())</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Differenced values:"</span>, jan_july_2019_differenced[:<span class="dv">5</span>])</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Head of dataframe:                INTERVAL_READ
+INTERVAL_TIME               
+2019-01-01            7.5324
+2019-01-02           10.2534
+2019-01-03            6.8544
+2019-01-04            5.3250
+2019-01-05            7.5480
+
+Differenced values: [ 2.721  -3.399  -1.5294  2.223   2.3466]</code></pre>
+</div>
+<p>Plotting the result shows that there are no obvious trends in the
+differenced data.</p>
+<div class="codewrapper sourceCode" id="cb14">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>ax.plot(jan_july_2019_differenced)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Time'</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Energy consumption'</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+</div>
+<figure><img src="./fig/ep3_fig3.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of differenced daily power consumption data.</figcaption></figure><p>Evaluating the AD Fuller test on the difference data indicates that
+the data are stationary.</p>
+<div class="codewrapper sourceCode" id="cb15">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>adfuller_test <span class="op">=</span> adfuller(jan_july_2019_differenced)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'ADFuller result: </span><span class="sc">{</span>adfuller_test[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'p-value: </span><span class="sc">{</span>adfuller_test[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">'</span>)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>ADFuller result: -7.966077912452976
+p-value: 2.8626643210939594e-12</code></pre>
+</div>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -921,7 +1138,10 @@ any links that you are not going to use.
 </h3>
 <div class="callout-content">
 <ul>
-<li>note here</li>
+<li>Use differencing to make time-series stationary.</li>
+<li>
+<code>statsmodels</code> is a Python library with time-series
+methods built in.</li>
 </ul>
 </div>
 </div>
