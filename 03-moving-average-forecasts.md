@@ -149,8 +149,11 @@ through late spring and into summer. This is expected - power consumption
 in US households tends to increase as the weather becomes warmer and people
 begin to use air conditioners or evaporative coolers. 
 
-In order to make a forecast, however, the data need to be stationary. That is,
-we need to remove trends from the data. We can test for stationarity using the
+## Differencing and autocorrelation
+
+In order to make a forecast using the moving average model, however, 
+the data need to be stationary. That is, we need to remove trends from 
+the data. We can test for stationarity using the
 ```adfuller``` function from ```statsmodels```.
 
 ```python
@@ -238,6 +241,57 @@ print(f'p-value: {adfuller_test[1]}')
 ADFuller result: -7.966077912452976
 p-value: 2.8626643210939594e-12
 ```
+The autocorrelation plot still shows some significant autocorrelation up to
+lag 2. We will use this information to supply the *order* parameter for the 
+moving average model, below.
+
+![Autocorrelation plot of differenced data.](./fig/ep3_fig4.png)
+
+## Moving average forecast
+
+For our training data, we will use the 90% of the dataset. The remaining
+10% of the data will be used to evaluate the performance of the moving 
+average forecast in comparison with a baseline forecast.
+
+Since the differenced data is a numpy array, we also need to convert it to
+a dataframe.
+
+```python
+jan_july_2019_differenced = pd.DataFrame(jan_july_2019_differenced,
+                                         columns=["INTERVAL_READ"])
+
+train = jan_july_2019_differenced[:int(round(len(jan_july_2019_differenced) * .9, 0))] # ~90% of data
+test = jan_july_2019_differenced[int(round(len(jan_july_2019_differenced) * .9, 0)):] # ~10% of data        
+print("Training data length:", len(train))
+print("Test data length:", len(test))
+```
+
+```output
+Training data length: 190
+Test data length: 21
+```
+
+We can plot the original and differenced data together. The shaded area is
+the date range for which we will be making and evaluating forecasts.
+
+```python
+fig, (ax1, ax2) = plt.subplots(nrows=2, ncols=1, sharex=True)
+ 
+ax1.plot(jan_july_2019["INTERVAL_READ"].values)
+ax1.set_xlabel('Time')
+ax1.set_ylabel('Energy use')
+ax1.axvspan(184, 211, color='#808080', alpha=0.2)
+ 
+ax2.plot(jan_july_2019_differenced["INTERVAL_READ"])
+ax2.set_xlabel('Time')
+ax2.set_ylabel('Energy use - differenced data')
+ax2.axvspan(184, 211, color='#808080', alpha=0.2)
+ 
+fig.autofmt_xdate()
+plt.tight_layout()
+```
+
+![Plot of daily power consumption and differenced data, with forecast range shaded.](./fig/ep3_fig5.png)
 
 
 
