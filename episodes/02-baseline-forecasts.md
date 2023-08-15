@@ -34,6 +34,23 @@ timestep and base predictions using
 - a naive seasonal baseline based upon a pairwise comparison of a set of 
 previous timesteps.
 
+## About the code
+
+The code used in this lesson is based on and, in some cases, a direct 
+application of code used in the Manning Publications title, *Time series forecasting in Python*, by Marco Peixeiro.
+
+> Peixeiro, Marco. Time Series Forecasting in Python. [First edition]. Manning Publications Co., 2022.
+
+The original code from the book is made available under an 
+[Apache 2.0 license](https://github.com/marcopeix/TimeSeriesForecastingInPython/blob/master/LICENSE.txt). Use and application of the code in these materials is within
+the license terms, although this lesson itself is licensed under a Creative Commons
+[CC-BY 4.0 license](https://creativecommons.org/licenses/by/4.0/legalcode). Any
+further use or adaptation of these materials should cite the source code
+developed by Peixeiro:
+
+> Peixeiro, Marco. Timeseries Forecasting in Python [Software code]. 2022.
+Accessed from [https://github.com/marcopeix/TimeSeriesForecastingInPython](https://github.com/marcopeix/TimeSeriesForecastingInPython).
+
 ## Create a data subset for basline forecasting
 
 Rather than read a previously edited dataset, for each of the episodes in this
@@ -233,6 +250,20 @@ test.loc[:, 'pred_mean'] = historical_mean
 Plotting the forecast shows that the same value has been applied to each 
 week of the test dataset.
 
+```python
+fig, ax = plt.subplots()
+ 
+ax.plot(train['INTERVAL_READ'], 'g-.', label='Train')
+ax.plot(test['INTERVAL_READ'], 'b-', label='Test')
+ax.plot(test['pred_mean'], 'r--', label='Predicted')
+ax.set_xlabel('Date')
+ax.set_ylabel('Weekly power consumption')
+ax.legend(loc=2)
+
+fig.autofmt_xdate()
+plt.tight_layout()
+```
+
 ![Plot of total weekly readings from a single meter, January - June, 2019](./fig/ep2_fig3_plot_historical_mean.png)
 
 The above plot is a qualitative method of evaluating the accuracy of the 
@@ -242,10 +273,6 @@ that it is not very accurate.
 Quantitatively, we can evaluate the accuracy of the forecasts based on the 
 *mean absolute percentage error*. We will be using this method to evaluate
 all of our baseline forecasts, so we will define a function for it. 
-
-The following is taken from Marco Peixeiro, *Time series forecasting in Python*:
-
-> Peixeiro, Marco. Time Series Forecasting in Python. [First edition]. Manning Publications Co., 2022.
 
 ```python
 # Mean absolute percentage error
@@ -266,8 +293,208 @@ print("MAPE of historical mean", mape_hist_mean)
 MAPE of historical mean: 31.44822521573767
 ```
 
-The high MAPE value suggests that, for these data, the historical mean is not
-an accurate forecasting method. 
+The high mean average percentage error value suggests that, for these data, 
+the historical mean is not an accurate forecasting method. 
+
+## Forecast using the mean of the previous timestamp
+
+One source of the error in forecasting with the historical mean can be the
+amount of data, which over longer timeframes can introduce seasonal trends. As
+an alternative to the historic mean, we can also forecast using the mean of
+the previous timestep. Since we are forecasting power consumption over a period
+of four weeks, this means we can use the mean power consumption within the
+last four weeks of the training dataset as our forecast.
+
+Since our data have been resampled to a weekly frequency, we will calculate
+the average power consumption across the last four rows.
+
+```python
+# baseline using mean of last four weeks of training set
+
+last_month_mean = np.mean(train['INTERVAL_READ'][-4:])
+print("Mean of previous timestep:", last_month_mean)
+```
+
+```output
+Mean of previous timestep: 139.55055000000002
+```
+
+Apply this to the test dataset. Selecting the data using the ```head()```
+command shows that the value calculated above has been applied to each row.
+
+```python
+test.loc[:, 'pred_last_mo_mean'] =  last_month_mean
+print(test.head())
+```
+
+```output
+               INTERVAL_READ   pred_mean  pred_last_mo_mean
+INTERVAL_TIME                                              
+2019-07-07          129.1278  120.750316          139.55055
+2019-07-14          149.2956  120.750316          139.55055
+2019-07-21          144.6612  120.750316          139.55055
+2019-07-28          148.4286  120.750316          139.55055
+2019-08-04           61.4640  120.750316          139.55055
+```
+
+```python
+fig, ax = plt.subplots()
+ 
+ax.plot(train['INTERVAL_READ'], 'g-.', label='Train')
+ax.plot(test['INTERVAL_READ'], 'b-', label='Test')
+ax.plot(test['pred_last_mo_mean'], 'r--', label='Predicted')
+ax.set_xlabel('Date')
+ax.set_ylabel('Daily power consumption')
+ax.legend(loc=2)
+
+fig.autofmt_xdate()
+plt.tight_layout()
+```
+
+![Plot of total weekly readings from a single meter, January - June, 2019](./fig/ep2_fig4_plot_prev_timestamp_mean.png)
+
+Plotting the data suggests that this forecast may be more accurate than the
+historical mean, but we will evaluate the forecast using the mean average
+percentage error as well.
+
+```python
+mape_last_month_mean = mape(test['INTERVAL_READ'], test['pred_last_mo_mean'])
+print("MAPE of the mean of the previous timestep forecast:", mape_last_month_mean)
+```
+
+```output
+MAPE of the mean of the previous timestep forecast: 30.231515216486425
+```
+
+The result is a slight improvement over the previous method, but still not very
+accurate.
+
+## Forecasting using the last known value
+
+In addition the mean across the previous timestep, we can also forecast using
+the last recorded value in the training dataset. 
+
+```python
+last = train['INTERVAL_READ'].iloc[-1]
+print("Last recorded value in the training dataset:", last)
+```
+
+```output
+Last recorded value in the training dataset: 129.1278
+```
+
+Apply this value to the training dataset.
+
+```python
+test.loc[:, 'pred_last'] = last
+print(test.head())
+```
+
+```output
+               INTERVAL_READ   pred_mean  pred_last_mo_mean  pred_last
+INTERVAL_TIME                                                         
+2019-07-07          129.1278  120.750316          139.55055   129.1278
+2019-07-14          149.2956  120.750316          139.55055   129.1278
+2019-07-21          144.6612  120.750316          139.55055   129.1278
+2019-07-28          148.4286  120.750316          139.55055   129.1278
+2019-08-04           61.4640  120.750316          139.55055   129.1278
+```
+
+Evaluate the forecast by plotting the result and calculating the mean
+average percentage error.
+
+```python
+fig, ax = plt.subplots()
+ 
+ax.plot(train['INTERVAL_READ'], 'g-.', label='Train')
+ax.plot(test['INTERVAL_READ'], 'b-', label='Test')
+ax.plot(test['pred_last'], 'r--', label='Predicted')
+ax.set_xlabel('Date')
+ax.set_ylabel('Daily power consumption')
+ax.legend(loc=2)
+
+fig.autofmt_xdate()
+plt.tight_layout()
+```
+
+![Plot of total weekly readings from a single meter, January - June, 2019](./fig/ep2_fig5_plot_prev_value.png)
+
+```python
+mape_last = mape(test['INTERVAL_READ'], test['pred_last'])
+print("MAPE of the mean of the last recorded value forecast:", mape_last)
+```
+
+```output
+MAPE of the mean of the last recorded value forecast: 29.46734391639027
+```
+
+Here the mean average percentage error indicates another slight improvement
+in the forecast that may not be apparent in the plot.
+
+## Forecasting using the previous timestep
+
+So far we have used the mean of the previous timestep - in the current case
+the average power consumption across the last four weeks of the training
+dataset - as well as the last recorded value. 
+
+A final method for baseline forecasting uses the actual values of the previous
+timestep. This is similar to taking the last recorded value, as above, only
+this time the number of known values is equal to the number of rows in the
+test dataset. This method accounts somewhat for the seasonal trend we see in 
+the data.
+
+In this case, we can a difference between this and other baseline forecasts
+in that we are no longer applying a single value to each row of the test
+dataset.
+
+```python
+test.loc[:, 'pred_last_month'] = train['INTERVAL_READ'][-5:].values
+print(test.head())
+```
+```output
+               INTERVAL_READ   pred_mean  ...  pred_last  pred_last_month
+INTERVAL_TIME                             ...                            
+2019-07-07          129.1278  120.750316  ...   129.1278         121.9458
+2019-07-14          149.2956  120.750316  ...   129.1278         148.0386
+2019-07-21          144.6612  120.750316  ...   129.1278         134.2614
+2019-07-28          148.4286  120.750316  ...   129.1278         146.7744
+2019-08-04           61.4640  120.750316  ...   129.1278         129.1278
+
+[5 rows x 5 columns]
+```
+
+Plotting the forecast and calculating the mean average percentage error once
+again demonstrate some improvement over previous forecasts.
+
+```python
+fig, ax = plt.subplots()
+ 
+ax.plot(train['INTERVAL_READ'], 'g-.', label='Train')
+ax.plot(test['INTERVAL_READ'], 'b-', label='Test')
+ax.plot(test['pred_last_month'], 'r--', label='Predicted')
+ax.set_xlabel('Date')
+ax.set_ylabel('Daily power consumption')
+ax.legend(loc=2)
+
+fig.autofmt_xdate()
+plt.tight_layout()
+```
+
+![Plot of total weekly readings from a single meter, January - June, 2019](./fig/ep2_fig6_plot_prev_timestep_value.png)
+
+
+```python
+pe_naive_seasonal = mape(test['INTERVAL_READ'], test['pred_last_month'])
+print("MAPE of forecast using previous timestep values:", mape_naive_seasonal)
+```
+```output
+MAPE of forecast using previous timestep values: 24.95886287091312
+```
+
+A mean average percentage error of 25, while an improvement in this case
+over other baseline forecasts, is still not very good. However, these 
+baselines have value in themselves because they also serve as measurements
+we can use to evaluate other forecasting methods going forward. 
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
