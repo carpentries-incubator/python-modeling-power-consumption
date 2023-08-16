@@ -294,6 +294,181 @@ plt.tight_layout()
 ![Plot of daily power consumption and differenced data, with forecast range shaded.](./fig/ep3_fig5.png)
 
 
+We are going to evaluate the performance of the moving average forecast
+against a baseline forecast based on the last known value. Since we will be
+using and building on these methods throughout this lesson, we will create
+functions for each forecast.
+
+The ```last_known()``` function is a more flexible version of the process
+used in the previous episode to calculate a baseline forecast. In that case
+we used single value - the last known meter reading from the training dataset -
+and applied it as a forecast to the entire test set. In our updated function,
+we are passing *horizon* and *window* arguments that allow us to pull 
+values from a moving frame of reference within the differenced data.
+
+The ```moving_average()``` function is an implementation of the
+*seasonal auto-regressive moving average* model that is included in the
+```statsmodels``` library. 
+
+```python
+def last_known(data, training_len, horizon, window):
+    total_len = training_len + horizon
+    pred_last_known = []
+    
+    for i in range(training_len, total_len, window):
+        subset = data[:i]
+        last_known = subset.iloc[-1].values[0]
+        pred_last_known.extend(last_known for v in range(window))
+    
+    return pred_last_known
+
+def moving_average(data, training_len, horizon, ma_order, window):
+    total_len = training_len + horizon
+    pred_MA = []
+    
+    for i in range(training_len, total_len, window):
+        model = SARIMAX(data[:i], order=(0,0, ma_order)) 
+        res = model.fit(disp=False)
+        predictions = res.get_prediction(0, i + window - 1)
+        oos_pred = predictions.predicted_mean.iloc[-window:]
+        pred_MA.extend(oos_pred)
+        
+    return pred_MA
+```
+
+Both functions take the differenced dataframe as input and return a list
+of predicted values that is equal to the length of the test dataset.
+
+```python
+pred_df = test.copy()
+ 
+TRAIN_LEN = len(train)
+HORIZON = len(test)
+ORDER = 2
+WINDOW = 2
+
+pred_last_value = last_known(jan_july_2019_differenced, TRAIN_LEN, HORIZON, WINDOW)
+pred_MA = moving_average(jan_july_2019_differenced, TRAIN_LEN, HORIZON, ORDER, WINDOW)
+
+pred_df['pred_last_value'] = pred_last_value
+pred_df['pred_MA'] = pred_MA
+ 
+print(pred_df.head())
+```
+
+```output
+     INTERVAL_READ  pred_last_value   pred_MA
+189       -13.5792           -1.863 -1.870535
+190       -10.8660           -1.863 -0.379950
+191         4.8054          -10.866  9.760944
+192         6.2280          -10.866  4.751856
+193        -5.6718            6.228  2.106354
+```
+
+Plotting the data allows for a visual comparison of the forecasts.
+
+```python
+fig, ax = plt.subplots()
+                      
+ax.plot(jan_july_2019_differenced[150:]['INTERVAL_READ'], 'b-', label='actual')           
+ax.plot(pred_df['pred_last_value'], 'r-.', label='last')     
+ax.plot(pred_df['pred_MA'], 'k--', label='Moving average')          
+ 
+ax.axvspan(190, 210, color='#808080', alpha=0.2)         
+ax.legend(loc=2)                                         
+ 
+ax.set_xlabel('Time')
+ax.set_ylabel('Energy use - differenced data')
+
+plt.tight_layout()
+```
+
+![Last known value versus moving average forecasts.](./fig/ep3_fig6.png)
+
+This time we will use the ```mean_squared_error``` function from the 
+```sklearn``` library to evaluate the results.
+
+```python
+mse_last = mean_squared_error(pred_df['INTERVAL_READ'], pred_df['pred_last_value'])
+mse_MA = mean_squared_error(pred_df['INTERVAL_READ'], pred_df['pred_MA'])
+ 
+print("Last known forecast, mean squared error:", mse_last)
+print("Moving average forecast, mean squared error:", mse_MA)
+```
+
+```output
+Last known forecast, mean squared error: 185.5349359527273
+Moving average forecast, mean squared error: 86.16289030738947
+```
+
+We can see that the moving average forecast performs much better than the last
+known value baseline forecast.
+
+## Transform the forecast to original scale
+
+Because we differenced our data above in order to apply a moving average
+forecast, we now need to transform the data back to its original scale. To do
+this, we apply the numpy ```cumsum()``` method to calculate the cumulative sums
+of the values in the differenced dataset. We then map these sums to their 
+corresponding rows of the original data.
+
+The transformed data are only being applied to the rows of the source data that
+were used for the test dataset, so we can use the ```tail()``` function to
+inspect the result.
+
+```python
+jan_july_2019['pred_usage'] = pd.Series() 
+jan_july_2019['pred_usage'][190:] = jan_july_2019['INTERVAL_READ'].iloc[190] + pred_df['pred_MA'].cumsum() 
+print(jan_july_2019.tail())
+```
+
+```output
+               INTERVAL_READ  pred_usage
+INTERVAL_TIME                           
+2019-07-27           23.2752   31.008305
+2019-07-28           42.0504   28.974839
+2019-07-29           36.6444   30.387655
+2019-07-30           18.0828   22.025803
+2019-07-31           25.5774   20.781842
+```
+
+We can plot the result to compare the transformed forecasts against the
+actual daily power consumption. 
+
+```python
+fig, ax = plt.subplots()
+ 
+ax.plot(jan_july_2019['INTERVAL_READ'].values, 'b-', label='actual') 
+ax.plot(jan_july_2019['pred_usage'].values, 'k--', label='MA(2)') 
+ 
+ax.legend(loc=2)
+ 
+ax.set_xlabel('Time')
+ax.set_ylabel('Energy consumption')
+ax.axvspan(191, 210, color='#808080', alpha=0.2)
+ax.set_xlim(170, 210)
+ 
+fig.autofmt_xdate()
+plt.tight_layout()
+```
+
+![Plot of transformed moving average forecasts.](./fig/ep3_fig7.png)
+
+
+Finally, to evaluate the performance of the moving average forecast against the
+actual values in the undifferenced data, we use the ```mean_absolute_error```
+from the ```sklearn``` library.
+
+```python
+mae_MA_undiff = mean_absolute_error(jan_july_2019['INTERVAL_READ'].iloc[191:], 
+                                    jan_july_2019['pred_usage'].iloc[191:])
+ 
+print("Mean absolute error of moving average forecast", mae_MA_undiff)
+```
+
+```output
+Mean absolute error of moving average forecast 8.457690692889582
+```
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
