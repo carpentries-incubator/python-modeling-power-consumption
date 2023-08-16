@@ -62,6 +62,7 @@ episodes:
 - 01-introduction.md
 - 02-baseline-forecasts.md
 - 03-moving-average-forecasts.md
+- 04-autoregressive-forecasts.md
 
 # Information for Learners
 learners:

@@ -85,11 +85,11 @@
   Modeling Power Consumption with Python
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 59%" class="percentage">
-    59%
+<aside class="col-md-12 lesson-progress"><div style="width: 42%" class="percentage">
+    42%
   </div>
   <div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 59%" aria-valuenow="59" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar incubator" role="progressbar" style="width: 42%" aria-valuenow="42" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -184,6 +184,15 @@
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
+<div class="accordion accordion-flush" id="accordionFlush5">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading5">
+        <a href="04-autoregressive-forecasts.html">4. Modeling an Autoregressive Process</a>
+    </div><!--/div.accordion-header-->
+        
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
                 </div>
               </div>
             </div>
@@ -226,12 +235,12 @@
   <div class="col-xl-8 col-lg-12 primary-content">
     <nav class="lesson-content mx-md-4" aria-label="Previous and Next Chapter"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="../instructor/02-baseline-forecasts.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
-        <a class="chapter-link float-end" href="../instructor/index.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="../instructor/04-autoregressive-forecasts.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
         <a class="chapter-link" href="../instructor/02-baseline-forecasts.html" rel="prev"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous: Baseline Metrics for</a>
-        <a class="chapter-link float-end" href="../instructor/index.html" rel="next">Next... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="../instructor/04-autoregressive-forecasts.html" rel="next">Next: Modeling an... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Moving Average Forecasts</h1>
@@ -283,11 +292,10 @@ option. Since that doesn’t apply to the smart meter data - that is,
 power consumption values are not random - we will pass over that topic
 for now.</p>
 <p>Instead, the smart meter data have characteristics that make them
-good candidates for methods that account for trends, auto-correlation,
-and one or more types of seasonality. We will develop these concepts
-over the next several lessons, beginning here with autocorrelation and
-the use of moving averages to make forecasts using autocorrelated
-data.</p>
+good candidates for methods that account for trends, autoregression, and
+one or more types of seasonality. We will develop these concepts over
+the next several lessons, beginning here with autocorrelation and the
+use of moving averages to make forecasts using autocorrelated data.</p>
 </section><section id="about-the-code"><h2 class="section-heading">About the code<a class="anchor" aria-label="anchor" href="#about-the-code"></a>
 </h2>
 <hr class="half-width"><p>The code used in this lesson is based on and, in some cases, a direct
@@ -432,12 +440,7 @@ p-value: 0.10762933815081588</code></pre>
 <p>The p-value above is greater than 0.05, which in this case indicates
 that the data are not stationary. That is, there is a trend in the
 data.</p>
-<p>We also want to test for autocorrelation. As noted above, our data
-are not random - recorded values of power consumption can be dependent
-on other variables, including in this case the previous value. This is
-known as <em>autocorrelation</em>, and the <code>statsmodels</code>
-library also a function for plotting the presence of
-autocorrelation.</p>
+<p>We also want to test for autocorrelation.</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -750,12 +753,12 @@ any links that you are not going to use.
 </section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="../instructor/02-baseline-forecasts.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
-        <a class="chapter-link float-end" href="../instructor/index.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="../instructor/04-autoregressive-forecasts.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
         <a class="chapter-link" href="../instructor/02-baseline-forecasts.html" rel="prev"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous: Baseline Metrics for</a>
-        <a class="chapter-link float-end" href="../instructor/index.html" rel="next">Next... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="../instructor/04-autoregressive-forecasts.html" rel="next">Next: Modeling an... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
     </nav></div> <!-- / div.primary-content.col-xs-12 -->
 <!-- END:   inst/pkgdown/templates/content-instructor.html-->
