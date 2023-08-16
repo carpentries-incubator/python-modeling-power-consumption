@@ -29,7 +29,7 @@ meter data - that is, power consumption values are not random - we will pass
 over that topic for now.
 
 Instead, the smart meter data have characteristics that make them good 
-candidates for methods that account for trends, auto-correlation, and one or 
+candidates for methods that account for trends, autoregression, and one or 
 more types of seasonality. We will develop these concepts over the next several
 lessons, beginning here with autocorrelation and the use of moving averages
 to make forecasts using autocorrelated data.
@@ -170,11 +170,7 @@ p-value: 0.10762933815081588
 The p-value above is greater than 0.05, which in this case indicates that the
 data are not stationary. That is, there is a trend in the data.
 
-We also want to test for autocorrelation. As noted above, our data are not
-random - recorded values of power consumption can be dependent on other
-variables, including in this case the previous value. This is known as
-*autocorrelation*, and the ```statsmodels``` library also a function for
-plotting the presence of autocorrelation. 
+We also want to test for autocorrelation. 
 
 ```python
 plot_acf(jan_july_2019["INTERVAL_READ"], lags=30)
