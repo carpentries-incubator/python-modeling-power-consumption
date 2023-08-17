@@ -484,19 +484,54 @@ MSE of AR(4) forecast: 85.29189129936279
 MSE of ARMA(0, 2) forecast: 73.404918547051
 ```
 
+We perform the reverse transformation on the forecasts from the differenced
+data to apply them to the source data.
 
+```python
+daily_usage['pred_usage'] = pd.Series() 
+daily_usage['pred_usage'][190:] = daily_usage['sum'].iloc[190] + test['pred_ARMA'].cumsum() 
+print(daily_usage.tail())
+```
 
+```output
+                   sum  pred_usage
+INTERVAL_TIME                     
+2019-07-27     23.2752   39.668821
+2019-07-28     42.0504   37.635355
+2019-07-29     36.6444   27.803183
+2019-07-30     18.0828   19.441330
+2019-07-31     25.5774   23.182106
+```
 
+We evaluate the transformed forecasts using the mean absolute error. 
 
+```python
+mae_MA_undiff = mean_absolute_error(daily_usage['sum'].iloc[190:], 
+                                    daily_usage['pred_usage'].iloc[190:])
+ 
+print("Mean absolute error, ARMA(0, 2):", mae_MA_undiff)
+```
 
+Finally, we can visualize the forecasts in comparison with the actual
+values.
 
+```python
+fig, ax = plt.subplots()
+ 
+ax.plot(daily_usage['sum'].values, 'b-', label='actual') 
+ax.plot(daily_usage['pred_usage'].values, 'k--', label='ARMA(0,2)') 
+ 
+ax.legend(loc=2)
+ 
+ax.set_xlabel('Time')
+ax.set_ylabel('Energy consumption')
+ax.axvspan(161, 180, color='#808080', alpha=0.2)
 
+fig.autofmt_xdate()
+plt.tight_layout()
+```
 
-
-
-
-
-
+![Final plot of ARMA(0, 2) forecast compared to actual values.](./fig/ep5_fig7.png)
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
