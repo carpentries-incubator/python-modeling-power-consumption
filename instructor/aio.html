@@ -2359,7 +2359,57 @@ results of the AR(4) model in the previous section.</p>
 MSE of AR(4) forecast: 85.29189129936279
 MSE of ARMA(0, 2) forecast: 73.404918547051</code></pre>
 </div>
-<div id="keypoints1" class="callout keypoints">
+<p>We perform the reverse transformation on the forecasts from the
+differenced data to apply them to the source data.</p>
+<div class="codewrapper sourceCode" id="cb31">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>daily_usage[<span class="st">'pred_usage'</span>] <span class="op">=</span> pd.Series() </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>daily_usage[<span class="st">'pred_usage'</span>][<span class="dv">190</span>:] <span class="op">=</span> daily_usage[<span class="st">'sum'</span>].iloc[<span class="dv">190</span>] <span class="op">+</span> test[<span class="st">'pred_ARMA'</span>].cumsum() </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(daily_usage.tail())</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>                   sum  pred_usage
+INTERVAL_TIME                     
+2019-07-27     23.2752   39.668821
+2019-07-28     42.0504   37.635355
+2019-07-29     36.6444   27.803183
+2019-07-30     18.0828   19.441330
+2019-07-31     25.5774   23.182106</code></pre>
+</div>
+<p>We evaluate the transformed forecasts using the mean absolute
+error.</p>
+<div class="codewrapper sourceCode" id="cb33">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>mae_MA_undiff <span class="op">=</span> mean_absolute_error(daily_usage[<span class="st">'sum'</span>].iloc[<span class="dv">190</span>:], </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                                    daily_usage[<span class="st">'pred_usage'</span>].iloc[<span class="dv">190</span>:])</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mean absolute error, ARMA(0, 2):"</span>, mae_MA_undiff)</span></code></pre>
+</div>
+<p>Finally, we can visualize the forecasts in comparison with the actual
+values.</p>
+<div class="codewrapper sourceCode" id="cb34">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>ax.plot(daily_usage[<span class="st">'sum'</span>].values, <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'actual'</span>) </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>ax.plot(daily_usage[<span class="st">'pred_usage'</span>].values, <span class="st">'k--'</span>, label<span class="op">=</span><span class="st">'ARMA(0,2)'</span>) </span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Time'</span>)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Energy consumption'</span>)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>ax.axvspan(<span class="dv">161</span>, <span class="dv">180</span>, color<span class="op">=</span><span class="st">'#808080'</span>, alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+</div>
+<figure><img src=".././fig/ep5_fig7.png" alt="" class="figure mx-auto d-block"><figcaption>Final plot of ARMA(0, 2) forecast compared to actual
+values.</figcaption></figure><div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
 </div>
