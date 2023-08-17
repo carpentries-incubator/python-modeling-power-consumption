@@ -512,6 +512,10 @@ mae_MA_undiff = mean_absolute_error(daily_usage['sum'].iloc[190:],
 print("Mean absolute error, ARMA(0, 2):", mae_MA_undiff)
 ```
 
+```output
+Mean absolute error, ARMA(0, 2): 15.766473755136264
+```
+
 Finally, we can visualize the forecasts in comparison with the actual
 values.
 
