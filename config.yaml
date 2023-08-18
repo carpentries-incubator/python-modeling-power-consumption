@@ -64,6 +64,7 @@ episodes:
 - 03-moving-average-forecasts.md
 - 04-autoregressive-forecasts.md
 - 05-autoregressive-moving-average.md
+- 06-autoregressive-integrated-moving-average-forecasts.md
 
 # Information for Learners
 learners:
