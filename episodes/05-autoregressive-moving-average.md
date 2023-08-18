@@ -1,5 +1,5 @@
 ---
-title: 'Forecasting an Autoregressive Moving Average Process'
+title: 'Autoregressive Moving Average Forecasts'
 teaching: 30
 exercises: 20
 ---
