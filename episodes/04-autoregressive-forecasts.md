@@ -1,5 +1,5 @@
 ---
-title: 'Modeling an Autoregressive Process'
+title: 'Autoregressive Forecasts'
 teaching: 30
 exercises: 20
 ---
