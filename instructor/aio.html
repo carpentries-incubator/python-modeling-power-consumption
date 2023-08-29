@@ -313,10 +313,10 @@
         
 <section id="aio-01-introduction"><p>Content from <a href="01-introduction.html">Introduction to Time-series Forecasting</a></p>
 <hr>
-<p> Last updated on 2023-08-12 | 
+<p> Last updated on 2023-08-29 | 
         
         <a href="https://github.com/carpentries-incubator/python-modeling-power-consumption/edit/main/episodes/01-introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-<p>Estimated time <i aria-hidden="true" data-feather="clock"></i> 22 minutes </p>
+<p>Estimated time <i aria-hidden="true" data-feather="clock"></i> 30 minutes </p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right"> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -338,7 +338,6 @@
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Identify different use cases for time-series forecasting.</li>
 <li>Define concepts applicable to forecasting models.</li>
 </ul>
 </div>
@@ -349,10 +348,77 @@
 <section id="introduction"><h2 class="section-heading">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <hr class="half-width">
+<p>This lesson is the second in a series of lessons demonstrating Python
+libraries and methods for time-series analysis and forecasting.</p>
+<p>The first lesson, <a href="https://carpentries-incubator.github.io/python-pandas-power-consumption/" class="external-link">Time
+Series Analysis of Smart Meter Power Consmption Data</a>, introduces
+datetime indexing features in the Python <code>Pandas</code> library.
+Other topics in the lesson include grouping data, resampling by time
+frequency, and plotting rolling averages.</p>
+<p>This lesson introduces forecasting time-series. Specifically, this
+lesson aims to progressively demonstrate the attributes and processes of
+the SARIMAX model (<strong>S</strong>easonal
+<strong>A</strong>uto-<strong>R</strong>egressive
+<strong>I</strong>ntegrated <strong>M</strong>oving
+<strong>A</strong>verage withe<strong>X</strong>ogenous factors).
+Exogenous factors are out of scope of the lesson, which is structured
+around the process of predicting a single timestep of a variable based
+on the the historic values of that same variable. Multi-variate
+forecasts are not addressed. Relevant topics include:</p>
+<ul>
+<li>Stationary and non-stationary time-series</li>
+<li>Auto-regression</li>
+<li>Seasonality</li>
+</ul>
+<p>The lesson demonstrates statistical methods for testing for the
+presence of stationarity and auto-regression, and for using the
+<code>SARIMAX</code> class of the Python <code>statsmodels</code>
+library to make forecasts that account for these processes.</p>
+<p>As noted throughout the lesson, the code used in this lesson is based
+on and in some cases is a direct application of code used in the Manning
+Publications title, <em>Time series forecasting in Python</em>, by Marco
+Peixeiro.</p>
+<blockquote>
+<p>Peixeiro, Marco. Time Series Forecasting in Python. [First edition].
+Manning Publications Co., 2022.</p>
+</blockquote>
+<p>The original code from the book is made available under an <a href="https://github.com/marcopeix/TimeSeriesForecastingInPython/blob/master/LICENSE.txt" class="external-link">Apache
+2.0 license</a>. Use and application of the code in these materials is
+within the license terms, although this lesson itself is licensed under
+a Creative Commons <a href="https://creativecommons.org/licenses/by/4.0/legalcode" class="external-link">CC-BY 4.0
+license</a>. Any further use or adaptation of these materials should
+cite the source code developed by Peixeiro:</p>
+<blockquote>
+<p>Peixeiro, Marco. Timeseries Forecasting in Python [Software code].
+2022. Accessed from <a href="https://github.com/marcopeix/TimeSeriesForecastingInPython" class="external-link">https://github.com/marcopeix/TimeSeriesForecastingInPython</a>.</p>
+</blockquote>
+<p>The third lesson in the series is <a href="https://carpentries-incubator.github.io/python-classifying-power-consumption/" class="external-link">Machine
+Learning for Timeseries Forecasting with Python</a>. It follows from and
+builds upon concepts from these first two lessons in the series.</p>
+<p>All three lessons use the same data. For information about the data
+and how to set up the environment so the code will work without the need
+to edit file paths, see the <a href="https://carpentries-incubator.github.io/python-modeling-power-consumption/" class="external-link">Setup</a>
+section.</p>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Keypoints<a class="anchor" aria-label="anchor" href="#keypoints1"></a>
+</h3>
+<div class="callout-content">
+<ul>
+<li>The Python <code>statsmodels</code> library includes a full featured
+implementation of the SARIMAX model.</li>
+</ul>
+</div>
+</div>
+</div>
 <!-- 
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
- --></section></section><section id="aio-02-baseline-forecasts"><p>Content from <a href="02-baseline-forecasts.html">Baseline Metrics for Timeseries Forecasts</a></p>
+ -->
+</section></section><section id="aio-02-baseline-forecasts"><p>Content from <a href="02-baseline-forecasts.html">Baseline Metrics for Timeseries Forecasts</a></p>
 <hr>
 <p> Last updated on 2023-08-14 | 
         
