@@ -425,10 +425,46 @@ website.</p>
   Using Jupyter Notebook
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
-
-</div>
+<p>The Anaconda distribution recommended above includes Jupyter
+Notebook, which is a browser-based electronic notebook environment that
+supports Python, R, and other languages.There are two ways that you can
+launch a notebook server. The first option is to run the application
+from the Anaconda Navigator:</p>
+<ol style="list-style-type: decimal"><li>Launch Anaconda Navigator using your operating system’s application
+launcher.</li>
+<li>The Navigator is a utility for managing environments, libraries, and
+applications. Find the Jupyter Notebook application and click on the
+<em>Launch</em> button to start a notebook server: <img src="../fig/anaconda-navigator-launch-jupyter.png" alt="Anaconda Navigator launch Jupyter" class="figure"></li>
+<li>The Jupyter Notebook server will open up a file navigator in your
+home directory of your operating system. Click through to navigate to
+the project <em>scripts</em> directory created in the setup, above.
+Click on <em>New</em> and select <em>Python 3</em> to create a Jupyter
+Notebook in that directory. <img src="../fig/anaconda-jupyter-new-nb.png" alt="Anaconda Jupyter new Notebook" class="figure"></li>
+<li>A new “Untitled” notebook will open up. When you see an empty
+notebook cell you are ready to go! <img src="../fig/anaconda-jupyter-success.png" alt="Anaconda Jupyter success." class="figure"></li>
+</ol><p>A second option is to use a command line client.</p>
+<ol style="list-style-type: decimal"><li>Open the default command line utility for your operating system. For
+Mac and many Linux systems, this will be the <em>Terminal</em> app. On
+Windows, it is recommended to launch either the <em>CMD.exe Prompt</em>
+or the <em>Powershell Prompt</em> from the Navigator.</li>
+<li>Use the <code>cd</code> or <em>change directory</em> command to
+navigate to the <em>scripts</em> subdirectory of the project directory
+created in the setup section above.</li>
+</ol><pre><code>cd ~/Desktop/pandas_timeseries/scripts</code></pre>
+<ol start="3" style="list-style-type: decimal"><li><p>Launch a Jupyter Notebook server using the
+<code>jupyter notebook</code> command. When the server launches,
+information similar to the below will appear in the console: <img src="../fig/anaconda-jupyter-server.png" alt="Anaconda Jupyter server starting." class="figure"></p></li>
+<li><p>The Jupyter Notebook application will also open in a web browser.
+Click on <em>New</em> and select <em>Python 3</em> to create a Jupyter
+Notebook in that directory. <img src="../fig/anaconda-jupyter-new-nb.png" alt="Anaconda Jupyter new Notebook" class="figure"></p></li>
+<li><p>A new “Untitled” notebook will open up. When you see an empty
+notebook cell you are ready to go! <img src="../fig/anaconda-jupyter-success.png" alt="Anaconda Jupyter success." class="figure"></p></li>
+<li><p>When you are finished working, after closing the Jupyter browser
+interface, be sure to also stop the server using
+<code>CONTROL-C</code>.</p></li>
+</ol></div>
 </div>
 </div>
 </div>
@@ -436,25 +472,10 @@ website.</p>
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">
-  Using your preferred IDE
-  </h4>
-</button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
-<div class="accordion-body">
-<ul><li>Spyder</li>
-<li>PyCharm</li>
-</ul></div>
-</div>
-</div>
-</div>
-<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
-  <h4 class="accordion-header" id="headingSolution3">
   Using a command line client
   </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>Open a shell and enter <code>python3</code>
 </li>
@@ -515,7 +536,7 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://carpentries-incubator.github.io/python-modeling-power-consumption/instructor/index.html",
   "identifier": "https://carpentries-incubator.github.io/python-modeling-power-consumption/instructor/index.html",
-  "dateCreated": "2023-08-20",
+  "dateCreated": "2023-08-29",
   "dateModified": "2023-08-29",
   "datePublished": "2023-08-29"
 }
