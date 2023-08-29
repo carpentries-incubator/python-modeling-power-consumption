@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Time-series Forecasting"
 teaching: 20
-exercises: 2
+exercises: 10
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
@@ -21,4 +21,8 @@ exercises: 2
 
 
 
-[r-markdown]: https://rmarkdown.rstudio.com/
+::::::::::::::::::::::::::::::::::::: keypoints
+
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::

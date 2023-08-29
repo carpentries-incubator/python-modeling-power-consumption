@@ -1,10 +1,9 @@
-# The Carpentries Workbench Template Markdown Lesson
+# Time-series forecasting: Modeling time-series with Python.
 
-This lesson is a template lesson that uses [The Carpentries Workbench][workbench].
+This lesson is the second in a series on using Python to analyze and make
+predictions using time-series data. The lesson progressively develops the
+components and processes of a SARIMAX model to predict single timesteps.
 
-To get started using this template, visit https://github.com/carpentries/workbench-template-md/generate
-and follow the instructions.
+For information or to contribute, contact 
+[@jonathanwheeler01](https://github.com/jonathanwheeler01)
 
-If you have any questions, contact [@zkamvar](https://github.com/zkamvar)
-
-[workbench]: https://carpentries.github.io/sandpaper-docs/
