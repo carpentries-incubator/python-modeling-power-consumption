@@ -71,17 +71,57 @@ There are different options for running a Python environment.
 
 ### Using Jupyter Notebook
 
+The Anaconda distribution recommended above includes Jupyter Notebook, which
+is a browser-based electronic notebook environment that supports Python, R, 
+and other languages.There are two ways that you can launch a notebook server.
+The first option is to run the application from the Anaconda Navigator:
+
+1. Launch Anaconda Navigator using your operating system's application 
+launcher.
+2. The Navigator is a utility for managing environments, libraries, and
+applications. Find the Jupyter Notebook application and click on the *Launch*
+button to start a notebook server:  ![](fig/anaconda-navigator-launch-jupyter.png){alt='Anaconda Navigator launch Jupyter'}
+3. The Jupyter Notebook server will open up a file navigator in your home 
+directory of your operating system. Click through to navigate to the project
+*scripts* directory created in the setup, above. Click on *New* and select
+*Python 3* to create a Jupyter Notebook in that directory.
+![](fig/anaconda-jupyter-new-nb.png){alt='Anaconda Jupyter new Notebook'}
+4. A new "Untitled" notebook will open up. When you see an empty notebook cell
+you are ready to go!
+![](fig/anaconda-jupyter-success.png){alt='Anaconda Jupyter success.'}
+
+
+A second option is to use a command line client. 
+
+1. Open the default command line utility for your operating system. For Mac and
+many Linux systems, this will be the *Terminal* app. On Windows, it is 
+recommended to launch either the *CMD.exe Prompt* or the *Powershell Prompt*
+from the Navigator.
+2. Use the ```cd``` or *change directory* command to navigate to the *scripts*
+subdirectory of the project directory created in the setup section above.
+
+```
+cd ~/Desktop/pandas_timeseries/scripts
+```
+
+3. Launch a Jupyter Notebook server using the ```jupyter notebook``` command.
+When the server launches, information similar to the below will appear in the
+console:
+![](fig/anaconda-jupyter-server.png){alt='Anaconda Jupyter server starting.'}
+
+4. The Jupyter Notebook application will also open in a web browser. Click on 
+*New* and select *Python 3* to create a Jupyter Notebook in that directory.
+![](fig/anaconda-jupyter-new-nb.png){alt='Anaconda Jupyter new Notebook'}
+
+5. A new "Untitled" notebook will open up. When you see an empty notebook cell
+you are ready to go!
+![](fig/anaconda-jupyter-success.png){alt='Anaconda Jupyter success.'}
+
+6. When you are finished working, after closing the Jupyter browser interface,
+be sure to also stop the server using ```CONTROL-C```.
+
+
 :::::::::::::::::::::::::
-
-:::::::::::::::: solution
-
-### Using your preferred IDE
-
-- Spyder
-- PyCharm
-
-:::::::::::::::::::::::::
-
 
 :::::::::::::::: solution
 
