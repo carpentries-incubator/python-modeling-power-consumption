@@ -345,38 +345,38 @@ cite the source code developed by Peixeiro:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.stattools <span class="im">import</span> adfuller</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_acf</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_pacf</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.statespace.sarimax <span class="im">import</span> SARIMAX</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_absolute_error</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.stattools <span class="im">import</span> adfuller</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_acf</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_pacf</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.statespace.sarimax <span class="im">import</span> SARIMAX</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_absolute_error</span></code></pre>
 </div>
 <p>Reuse our function to read, subset, and resample data.</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> subset_resample(fpath, sample_freq, start_date, end_date<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(fpath)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    df.set_index(pd.to_datetime(df[<span class="st">"INTERVAL_TIME"</span>]), inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    df.sort_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> end_date:</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        date_subset <span class="op">=</span> df.loc[start_date: end_date].copy()</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        date_subset <span class="op">=</span> df.loc[start_date].copy()</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    resampled_data <span class="op">=</span> date_subset.resample(sample_freq)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> resampled_data</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="kw">def</span> subset_resample(fpath, sample_freq, start_date, end_date<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(fpath)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>    df.set_index(pd.to_datetime(df[<span class="st">"INTERVAL_TIME"</span>]), inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>    df.sort_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>    <span class="cf">if</span> end_date:</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>        date_subset <span class="op">=</span> df.loc[start_date: end_date].copy()</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>        date_subset <span class="op">=</span> df.loc[start_date].copy()</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>    resampled_data <span class="op">=</span> date_subset.resample(sample_freq)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>    <span class="cf">return</span> resampled_data</span></code></pre>
 </div>
 <p>Call the function.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fp <span class="op">=</span> <span class="st">"../../data/ladpu_smart_meter_data_01.csv"</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data_subset_resampled <span class="op">=</span> subset_resample(fp, <span class="st">"D"</span>, <span class="st">"2019-01"</span>, end_date<span class="op">=</span><span class="st">"2019-07"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Data type of returned object:"</span>, <span class="bu">type</span>(data_subset_resampled))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>fp <span class="op">=</span> <span class="st">"../../data/ladpu_smart_meter_data_01.csv"</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>data_subset_resampled <span class="op">=</span> subset_resample(fp, <span class="st">"D"</span>, <span class="st">"2019-01"</span>, end_date<span class="op">=</span><span class="st">"2019-07"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Data type of returned object:"</span>, <span class="bu">type</span>(data_subset_resampled))</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -387,9 +387,9 @@ cite the source code developed by Peixeiro:</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>daily_usage <span class="op">=</span> data_subset_resampled[<span class="st">'INTERVAL_READ'</span>].agg([np.<span class="bu">sum</span>])</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(daily_usage.info())</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(daily_usage.head())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>daily_usage <span class="op">=</span> data_subset_resampled[<span class="st">'INTERVAL_READ'</span>].agg([np.<span class="bu">sum</span>])</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="bu">print</span>(daily_usage.info())</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="bu">print</span>(daily_usage.head())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -416,23 +416,24 @@ INTERVAL_TIME
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ax.plot(daily_usage[<span class="st">'sum'</span>])</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Time'</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Daily electricity consumption'</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>ax.plot(daily_usage[<span class="st">'sum'</span>])</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Time'</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Daily electricity consumption'</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>fig.autofmt_xdate()</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
 </div>
-<figure><img src=".././fig/ep5_fig1.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of daily power consumption from a single smart
-meter.</figcaption></figure><p>AD Fuller test.</p>
+<figure><img src=".././fig/ep5_fig1.png" alt="Plot of daily power consumption from a single smart meter." class="figure mx-auto d-block"><div class="figcaption">Plot of daily power consumption from a single
+smart meter.</div>
+</figure><p>AD Fuller test.</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>adfuller_test <span class="op">=</span> adfuller(daily_usage)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'ADFuller result: </span><span class="sc">{</span>adfuller_test[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'p-value: </span><span class="sc">{</span>adfuller_test[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">'</span>)   </span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>adfuller_test <span class="op">=</span> adfuller(daily_usage)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'ADFuller result: </span><span class="sc">{</span>adfuller_test[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'p-value: </span><span class="sc">{</span>adfuller_test[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">'</span>)   </span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -444,10 +445,10 @@ p-value: 0.10762933815081588</code></pre>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>daily_usage_diff <span class="op">=</span> np.diff(daily_usage[<span class="st">'sum'</span>], n <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>adfuller_test <span class="op">=</span> adfuller(daily_usage_diff)     </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'ADFuller result: </span><span class="sc">{</span>adfuller_test[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'p-value: </span><span class="sc">{</span>adfuller_test[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">'</span>) </span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>daily_usage_diff <span class="op">=</span> np.diff(daily_usage[<span class="st">'sum'</span>], n <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>adfuller_test <span class="op">=</span> adfuller(daily_usage_diff)     </span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'ADFuller result: </span><span class="sc">{</span>adfuller_test[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'p-value: </span><span class="sc">{</span>adfuller_test[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">'</span>) </span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -459,11 +460,12 @@ p-value: 2.8626643210939594e-12</code></pre>
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>plot_acf(daily_usage, lags<span class="op">=</span><span class="dv">20</span>)<span class="op">;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>plot_acf(daily_usage, lags<span class="op">=</span><span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
 </div>
-<figure><img src=".././fig/ep5_fig2.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of autocorrelation function of undifferenced
-data.</figcaption></figure></section><section id="determine-the-orders-of-the-armap-q-processes"><h2 class="section-heading">Determine the orders of the ARMA(p, q) processes<a class="anchor" aria-label="anchor" href="#determine-the-orders-of-the-armap-q-processes"></a>
+<figure><img src=".././fig/ep5_fig2.png" alt="Plot of autocorrelation function of undifferenced data." class="figure mx-auto d-block"><div class="figcaption">Plot of autocorrelation function of
+undifferenced data.</div>
+</figure></section><section id="determine-the-orders-of-the-armap-q-processes"><h2 class="section-heading">Determine the orders of the ARMA(p, q) processes<a class="anchor" aria-label="anchor" href="#determine-the-orders-of-the-armap-q-processes"></a>
 </h2>
 <hr class="half-width"><p>Plot indicates an autoregressive process.</p>
 <p>The order of an autoregressive moving average, or ARMA, process, may
@@ -483,15 +485,15 @@ given as <em>q</em>.</p>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> product</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>p_vals <span class="op">=</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">1</span>)                  </span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>q_vals <span class="op">=</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">1</span>)                  </span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>order_list <span class="op">=</span> <span class="bu">list</span>(product(p_vals, q_vals))</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> o <span class="kw">in</span> order_list:</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(o)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> product</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>p_vals <span class="op">=</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">1</span>)                  </span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>q_vals <span class="op">=</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">1</span>)                  </span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a> </span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>order_list <span class="op">=</span> <span class="bu">list</span>(product(p_vals, q_vals))</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="cf">for</span> o <span class="kw">in</span> order_list:</span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>    <span class="bu">print</span>(o)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -522,20 +524,20 @@ and evaluate our 16 models.</p>
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit_eval_AIC(data, order_list):</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    aic_results <span class="op">=</span> []</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> o <span class="kw">in</span> order_list:</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> SARIMAX(data, order<span class="op">=</span>(o[<span class="dv">0</span>], <span class="dv">0</span>, o[<span class="dv">1</span>]),</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                        simple_differencing<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> model.fit(disp<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        aic <span class="op">=</span> res.aic</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        aic_results.append([o, aic])</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    result_df <span class="op">=</span> pd.DataFrame(aic_results, columns<span class="op">=</span>([<span class="st">'(p, q)'</span>, <span class="st">'AIC'</span>]))</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    result_df.sort_values(by<span class="op">=</span><span class="st">'AIC'</span>, ascending<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    result_df.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result_df</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="kw">def</span> fit_eval_AIC(data, order_list):</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>    aic_results <span class="op">=</span> []</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>    <span class="cf">for</span> o <span class="kw">in</span> order_list:</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>        model <span class="op">=</span> SARIMAX(data, order<span class="op">=</span>(o[<span class="dv">0</span>], <span class="dv">0</span>, o[<span class="dv">1</span>]),</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>                        simple_differencing<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>        res <span class="op">=</span> model.fit(disp<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>        aic <span class="op">=</span> res.aic</span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>        aic_results.append([o, aic])</span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>        </span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>    result_df <span class="op">=</span> pd.DataFrame(aic_results, columns<span class="op">=</span>([<span class="st">'(p, q)'</span>, <span class="st">'AIC'</span>]))</span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>    result_df.sort_values(by<span class="op">=</span><span class="st">'AIC'</span>, ascending<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>    result_df.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>    </span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a>    <span class="cf">return</span> result_df</span></code></pre>
 </div>
 <p>The function will return a dataframe of ARMA(p, q) combinations and
 their corresponding AIC values. Results have been sorted by ascending
@@ -544,8 +546,8 @@ performing model will be listed first.</p>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>result_df <span class="op">=</span> fit_eval_AIC(daily_usage_diff, order_list)    </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result_df)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>result_df <span class="op">=</span> fit_eval_AIC(daily_usage_diff, order_list)    </span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="bu">print</span>(result_df)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -579,9 +581,9 @@ residuals of the ARMA(1, 1) model.</p>
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> SARIMAX(daily_usage_diff, order<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>), simple_differencing<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>model_fit <span class="op">=</span> model.fit(disp<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>model_fit.plot_diagnostics(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))<span class="op">;</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>model <span class="op">=</span> SARIMAX(daily_usage_diff, order<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>), simple_differencing<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>model_fit <span class="op">=</span> model.fit(disp<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>model_fit.plot_diagnostics(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))<span class="op">;</span></span></code></pre>
 </div>
 <p>The plots indicate that there is some room for improvement. We will
 see this improvement in a later section of this lesson when we finally
@@ -589,7 +591,9 @@ account for the seasonal trends evident in the data. But for now we will
 proceed and show that the ARMA(p, q) process nonetheless represent a
 significant improvement over forecasting with either the AR(p) or MA(q)
 processes by themselves.</p>
-<figure><img src=".././fig/ep5_fig3.png" alt="" class="figure mx-auto d-block"><figcaption>Diagnostic plot of residuals of ARMA(1, 1) model</figcaption></figure></section><section id="forecast-using-an-armap-q-model"><h2 class="section-heading">Forecast using an ARMA(p, q) model<a class="anchor" aria-label="anchor" href="#forecast-using-an-armap-q-model"></a>
+<figure><img src=".././fig/ep5_fig3.png" alt="Diagnostic plot of residuals of ARMA(1, 1) model" class="figure mx-auto d-block"><div class="figcaption">Diagnostic plot of residuals of ARMA(1, 1)
+model</div>
+</figure></section><section id="forecast-using-an-armap-q-model"><h2 class="section-heading">Forecast using an ARMA(p, q) model<a class="anchor" aria-label="anchor" href="#forecast-using-an-armap-q-model"></a>
 </h2>
 <hr class="half-width"><p>In the previous section we already updated our forecasting function
 to initialize a SARIMAX model using variables for the AR(p) and MA(q)
@@ -598,29 +602,29 @@ here.</p>
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> last_known(data, training_len, horizon, window):</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    total_len <span class="op">=</span> training_len <span class="op">+</span> horizon</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    pred_last_known <span class="op">=</span> []</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(training_len, total_len, window):</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        subset <span class="op">=</span> data[:i]</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        last_known <span class="op">=</span> subset.iloc[<span class="op">-</span><span class="dv">1</span>].values[<span class="dv">0</span>]</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>        pred_last_known.extend(last_known <span class="cf">for</span> v <span class="kw">in</span> <span class="bu">range</span>(window))</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pred_last_known</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> model_forecast(data, training_len, horizon, ar_order, ma_order, window):</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    total_len <span class="op">=</span> training_len <span class="op">+</span> horizon</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    model_predictions <span class="op">=</span> []</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(training_len, total_len, window):</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> SARIMAX(data[:i], order<span class="op">=</span>(ar_order, <span class="dv">0</span>, ma_order)) </span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> model.fit(disp<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>        predictions <span class="op">=</span> res.get_prediction(<span class="dv">0</span>, i <span class="op">+</span> window <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>        oos_pred <span class="op">=</span> predictions.predicted_mean.iloc[<span class="op">-</span>window:]</span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>        model_predictions.extend(oos_pred)</span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> model_predictions</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="kw">def</span> last_known(data, training_len, horizon, window):</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>    total_len <span class="op">=</span> training_len <span class="op">+</span> horizon</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>    pred_last_known <span class="op">=</span> []</span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>    </span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(training_len, total_len, window):</span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>        subset <span class="op">=</span> data[:i]</span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>        last_known <span class="op">=</span> subset.iloc[<span class="op">-</span><span class="dv">1</span>].values[<span class="dv">0</span>]</span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>        pred_last_known.extend(last_known <span class="cf">for</span> v <span class="kw">in</span> <span class="bu">range</span>(window))</span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>    </span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>    <span class="cf">return</span> pred_last_known</span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a><span class="kw">def</span> model_forecast(data, training_len, horizon, ar_order, ma_order, window):</span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>    total_len <span class="op">=</span> training_len <span class="op">+</span> horizon</span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a>    model_predictions <span class="op">=</span> []</span>
+<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a>    </span>
+<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(training_len, total_len, window):</span>
+<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a>        model <span class="op">=</span> SARIMAX(data[:i], order<span class="op">=</span>(ar_order, <span class="dv">0</span>, ma_order)) </span>
+<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a>        res <span class="op">=</span> model.fit(disp<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb19-19"><a href="#cb19-19" tabindex="-1"></a>        predictions <span class="op">=</span> res.get_prediction(<span class="dv">0</span>, i <span class="op">+</span> window <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" tabindex="-1"></a>        oos_pred <span class="op">=</span> predictions.predicted_mean.iloc[<span class="op">-</span>window:]</span>
+<span id="cb19-21"><a href="#cb19-21" tabindex="-1"></a>        model_predictions.extend(oos_pred)</span>
+<span id="cb19-22"><a href="#cb19-22" tabindex="-1"></a>        </span>
+<span id="cb19-23"><a href="#cb19-23" tabindex="-1"></a>    <span class="cf">return</span> model_predictions</span></code></pre>
 </div>
 <p>Next we create our training and test datasets and plot the
 differenced data with the original data. As before, the forecast range
@@ -628,12 +632,12 @@ is shaded.</p>
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df_diff <span class="op">=</span> pd.DataFrame({<span class="st">'daily_usage'</span>: daily_usage_diff})   </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> df_diff[:<span class="bu">int</span>(<span class="bu">len</span>(df_diff) <span class="op">*</span> <span class="fl">.9</span>)] <span class="co"># ~90% of data</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> df_diff[<span class="bu">int</span>(<span class="bu">len</span>(df_diff) <span class="op">*</span> <span class="fl">.9</span>):] <span class="co"># ~10% of data        </span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Training data length:"</span>, <span class="bu">len</span>(train))</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test data length:"</span>, <span class="bu">len</span>(test))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>df_diff <span class="op">=</span> pd.DataFrame({<span class="st">'daily_usage'</span>: daily_usage_diff})   </span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a> </span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>train <span class="op">=</span> df_diff[:<span class="bu">int</span>(<span class="bu">len</span>(df_diff) <span class="op">*</span> <span class="fl">.9</span>)] <span class="co"># ~90% of data</span></span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>test <span class="op">=</span> df_diff[<span class="bu">int</span>(<span class="bu">len</span>(df_diff) <span class="op">*</span> <span class="fl">.9</span>):] <span class="co"># ~10% of data        </span></span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Training data length:"</span>, <span class="bu">len</span>(train))</span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test data length:"</span>, <span class="bu">len</span>(test))</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -645,24 +649,25 @@ Test data length: 22</code></pre>
 <div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">2</span>, ncols<span class="op">=</span><span class="dv">1</span>, sharex<span class="op">=</span><span class="va">True</span>, </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                               figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))                   </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>ax1.plot(daily_usage[<span class="st">'sum'</span>].values)</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">'Time'</span>)</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">'Energy use'</span>)</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>ax1.axvspan(<span class="dv">190</span>, <span class="dv">211</span>, color<span class="op">=</span><span class="st">'#808080'</span>, alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>ax2.plot(df_diff[<span class="st">'daily_usage'</span>])</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">'Time'</span>)</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">'Energy use - diff'</span>)</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>ax2.axvspan(<span class="dv">190</span>, <span class="dv">211</span>, color<span class="op">=</span><span class="st">'#808080'</span>, alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">2</span>, ncols<span class="op">=</span><span class="dv">1</span>, sharex<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>                               figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))                   </span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a> </span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>ax1.plot(daily_usage[<span class="st">'sum'</span>].values)</span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>ax1.set_xlabel(<span class="st">'Time'</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>ax1.set_ylabel(<span class="st">'Energy use'</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>ax1.axvspan(<span class="dv">190</span>, <span class="dv">211</span>, color<span class="op">=</span><span class="st">'#808080'</span>, alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a> </span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>ax2.plot(df_diff[<span class="st">'daily_usage'</span>])</span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a>ax2.set_xlabel(<span class="st">'Time'</span>)</span>
+<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a>ax2.set_ylabel(<span class="st">'Energy use - diff'</span>)</span>
+<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a>ax2.axvspan(<span class="dv">190</span>, <span class="dv">211</span>, color<span class="op">=</span><span class="st">'#808080'</span>, alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a></span>
+<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a>fig.autofmt_xdate()</span>
+<span id="cb22-15"><a href="#cb22-15" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
 </div>
-<figure><img src=".././fig/ep5_fig.4" alt="" class="figure mx-auto d-block"><figcaption>Plot of original and differenced data with forecast
-region shaded.</figcaption></figure><p>Before proceeding, we want to re-evaluate our list of ARMA(p, q)
+<figure><img src=".././fig/ep5_fig.4" alt="Plot of original and differenced data with forecast region shaded." class="figure mx-auto d-block"><div class="figcaption">Plot of original and differenced data with
+forecast region shaded.</div>
+</figure><p>Before proceeding, we want to re-evaluate our list of ARMA(p, q)
 combinations against the training dataset. We will re-use the
 <code>order_list</code> from above.</p>
 <p>It’s a good thing we did so - note that the best performing model in
@@ -670,8 +675,8 @@ this case is an ARMA(0, 2).</p>
 <div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>result_df <span class="op">=</span> fit_eval_AIC(train[<span class="st">'daily_usage'</span>], order_list)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result_df)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>result_df <span class="op">=</span> fit_eval_AIC(train[<span class="st">'daily_usage'</span>], order_list)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="bu">print</span>(result_df)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -699,11 +704,13 @@ model are violated by plotting diagnostics of the residuals.</p>
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> SARIMAX(train[<span class="st">'daily_usage'</span>], order<span class="op">=</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">2</span>), simple_differencing<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>model_fit <span class="op">=</span> model.fit(disp<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>model_fit.plot_diagnostics(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))<span class="op">;</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>model <span class="op">=</span> SARIMAX(train[<span class="st">'daily_usage'</span>], order<span class="op">=</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">2</span>), simple_differencing<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>model_fit <span class="op">=</span> model.fit(disp<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>model_fit.plot_diagnostics(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))<span class="op">;</span></span></code></pre>
 </div>
-<figure><img src=".././fig/ep5_fig5.png" alt="" class="figure mx-auto d-block"><figcaption>Diagnostic plot of residuals of ARMA(0, 2) model.</figcaption></figure><p>Finally, we will forecast and evaluate the results against our
+<figure><img src=".././fig/ep5_fig5.png" alt="Diagnostic plot of residuals of ARMA(0, 2) model." class="figure mx-auto d-block"><div class="figcaption">Diagnostic plot of residuals of ARMA(0, 2)
+model.</div>
+</figure><p>Finally, we will forecast and evaluate the results against our
 previously used baseline of the last known forecast. We will also
 compare the ARMA(0, 2) forecast with results from our previous AR(4) and
 MA(2) forecasts.</p>
@@ -713,21 +720,21 @@ same.</p>
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>TRAIN_LEN <span class="op">=</span> <span class="bu">len</span>(train)                      </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>HORIZON <span class="op">=</span> <span class="bu">len</span>(test)                         </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>WINDOW <span class="op">=</span> <span class="dv">1</span>                              </span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>pred_last_value <span class="op">=</span> last_known(df_diff, TRAIN_LEN, HORIZON, WINDOW)    </span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>pred_MA <span class="op">=</span> model_forecast(df_diff, TRAIN_LEN, HORIZON, <span class="dv">0</span>, <span class="dv">2</span>, WINDOW)</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>pred_AR <span class="op">=</span> model_forecast(df_diff, TRAIN_LEN, HORIZON, <span class="dv">4</span>, <span class="dv">0</span>, WINDOW)</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>pred_ARMA <span class="op">=</span> model_forecast(df_diff, TRAIN_LEN, HORIZON, <span class="dv">0</span>, <span class="dv">2</span>, WINDOW)</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>                </span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>test[<span class="st">'pred_last_value'</span>] <span class="op">=</span> pred_last_value </span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>test[<span class="st">'pred_MA'</span>] <span class="op">=</span> pred_MA</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>test[<span class="st">'pred_AR'</span>] <span class="op">=</span> pred_AR </span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>test[<span class="st">'pred_ARMA'</span>] <span class="op">=</span> pred_ARMA               </span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test.head())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>TRAIN_LEN <span class="op">=</span> <span class="bu">len</span>(train)                      </span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>HORIZON <span class="op">=</span> <span class="bu">len</span>(test)                         </span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>WINDOW <span class="op">=</span> <span class="dv">1</span>                              </span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a> </span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>pred_last_value <span class="op">=</span> last_known(df_diff, TRAIN_LEN, HORIZON, WINDOW)    </span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>pred_MA <span class="op">=</span> model_forecast(df_diff, TRAIN_LEN, HORIZON, <span class="dv">0</span>, <span class="dv">2</span>, WINDOW)</span>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>pred_AR <span class="op">=</span> model_forecast(df_diff, TRAIN_LEN, HORIZON, <span class="dv">4</span>, <span class="dv">0</span>, WINDOW)</span>
+<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a>pred_ARMA <span class="op">=</span> model_forecast(df_diff, TRAIN_LEN, HORIZON, <span class="dv">0</span>, <span class="dv">2</span>, WINDOW)</span>
+<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a>                </span>
+<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a>test[<span class="st">'pred_last_value'</span>] <span class="op">=</span> pred_last_value </span>
+<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a>test[<span class="st">'pred_MA'</span>] <span class="op">=</span> pred_MA</span>
+<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a>test[<span class="st">'pred_AR'</span>] <span class="op">=</span> pred_AR </span>
+<span id="cb26-13"><a href="#cb26-13" tabindex="-1"></a>test[<span class="st">'pred_ARMA'</span>] <span class="op">=</span> pred_ARMA               </span>
+<span id="cb26-14"><a href="#cb26-14" tabindex="-1"></a> </span>
+<span id="cb26-15"><a href="#cb26-15" tabindex="-1"></a><span class="bu">print</span>(test.head())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -753,33 +760,34 @@ ARMA(0,2) model are very similar.</p>
 <div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>                      </span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>ax.plot(df_diff[<span class="dv">150</span>:][<span class="st">'daily_usage'</span>], <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'actual'</span>)                                        </span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_last_value'</span>], <span class="st">'r-.'</span>, label<span class="op">=</span><span class="st">'last'</span>)  </span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_AR'</span>], <span class="st">'g--'</span>, label<span class="op">=</span><span class="st">'AR(4)'</span>)     </span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_ARMA'</span>], <span class="st">'k--'</span>, label<span class="op">=</span><span class="st">'ARMA(0,2)'</span>)          </span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>ax.axvspan(<span class="dv">189</span>, <span class="dv">211</span>, color<span class="op">=</span><span class="st">'#808080'</span>, alpha<span class="op">=</span><span class="fl">0.2</span>)         </span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)                                         </span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Time'</span>)</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Energy use - diff'</span>)</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>                      </span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>ax.plot(df_diff[<span class="dv">150</span>:][<span class="st">'daily_usage'</span>], <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'actual'</span>)                                        </span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_last_value'</span>], <span class="st">'r-.'</span>, label<span class="op">=</span><span class="st">'last'</span>)  </span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_AR'</span>], <span class="st">'g--'</span>, label<span class="op">=</span><span class="st">'AR(4)'</span>)     </span>
+<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_ARMA'</span>], <span class="st">'k--'</span>, label<span class="op">=</span><span class="st">'ARMA(0,2)'</span>)          </span>
+<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a> </span>
+<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a>ax.axvspan(<span class="dv">189</span>, <span class="dv">211</span>, color<span class="op">=</span><span class="st">'#808080'</span>, alpha<span class="op">=</span><span class="fl">0.2</span>)         </span>
+<span id="cb28-9"><a href="#cb28-9" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)                                         </span>
+<span id="cb28-10"><a href="#cb28-10" tabindex="-1"></a> </span>
+<span id="cb28-11"><a href="#cb28-11" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Time'</span>)</span>
+<span id="cb28-12"><a href="#cb28-12" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Energy use - diff'</span>)</span>
+<span id="cb28-13"><a href="#cb28-13" tabindex="-1"></a></span>
+<span id="cb28-14"><a href="#cb28-14" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
 </div>
-<figure><img src=".././fig/ep5_fig6.png" alt="" class="figure mx-auto d-block"><figcaption>Results of AR(4) and ARMA(0, 2) forecasts</figcaption></figure><p>The mean squared error shows a meaningful improvement from the
+<figure><img src=".././fig/ep5_fig6.png" alt="Results of AR(4) and ARMA(0, 2) forecasts" class="figure mx-auto d-block"><div class="figcaption">Results of AR(4) and ARMA(0, 2) forecasts</div>
+</figure><p>The mean squared error shows a meaningful improvement from the
 results of the AR(4) model in the previous section.</p>
 <div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>mse_last <span class="op">=</span> mean_squared_error(test[<span class="st">'daily_usage'</span>], test[<span class="st">'pred_last_value'</span>])</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>mse_AR <span class="op">=</span> mean_squared_error(test[<span class="st">'daily_usage'</span>], test[<span class="st">'pred_AR'</span>])</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>mse_ARMA <span class="op">=</span> mean_squared_error(test[<span class="st">'daily_usage'</span>], test[<span class="st">'pred_ARMA'</span>])</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MSE of last known value forecast:"</span>, mse_last)</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MSE of AR(4) forecast:"</span>,mse_AR)</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MSE of ARMA(0, 2) forecast:"</span>,mse_ARMA)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>mse_last <span class="op">=</span> mean_squared_error(test[<span class="st">'daily_usage'</span>], test[<span class="st">'pred_last_value'</span>])</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>mse_AR <span class="op">=</span> mean_squared_error(test[<span class="st">'daily_usage'</span>], test[<span class="st">'pred_AR'</span>])</span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>mse_ARMA <span class="op">=</span> mean_squared_error(test[<span class="st">'daily_usage'</span>], test[<span class="st">'pred_ARMA'</span>])</span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a> </span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MSE of last known value forecast:"</span>, mse_last)</span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MSE of AR(4) forecast:"</span>,mse_AR)</span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MSE of ARMA(0, 2) forecast:"</span>,mse_ARMA)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -793,9 +801,9 @@ differenced data to apply them to the source data.</p>
 <div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>daily_usage[<span class="st">'pred_usage'</span>] <span class="op">=</span> pd.Series() </span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>daily_usage[<span class="st">'pred_usage'</span>][<span class="dv">190</span>:] <span class="op">=</span> daily_usage[<span class="st">'sum'</span>].iloc[<span class="dv">190</span>] <span class="op">+</span> test[<span class="st">'pred_ARMA'</span>].cumsum() </span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(daily_usage.tail())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>daily_usage[<span class="st">'pred_usage'</span>] <span class="op">=</span> pd.Series() </span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>daily_usage[<span class="st">'pred_usage'</span>][<span class="dv">190</span>:] <span class="op">=</span> daily_usage[<span class="st">'sum'</span>].iloc[<span class="dv">190</span>] <span class="op">+</span> test[<span class="st">'pred_ARMA'</span>].cumsum() </span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="bu">print</span>(daily_usage.tail())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -813,10 +821,10 @@ error.</p>
 <div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>mae_MA_undiff <span class="op">=</span> mean_absolute_error(daily_usage[<span class="st">'sum'</span>].iloc[<span class="dv">190</span>:], </span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                                    daily_usage[<span class="st">'pred_usage'</span>].iloc[<span class="dv">190</span>:])</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mean absolute error, ARMA(0, 2):"</span>, mae_MA_undiff)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>mae_MA_undiff <span class="op">=</span> mean_absolute_error(daily_usage[<span class="st">'sum'</span>].iloc[<span class="dv">190</span>:], </span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>                                    daily_usage[<span class="st">'pred_usage'</span>].iloc[<span class="dv">190</span>:])</span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a> </span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mean absolute error, ARMA(0, 2):"</span>, mae_MA_undiff)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -828,22 +836,23 @@ values.</p>
 <div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>ax.plot(daily_usage[<span class="st">'sum'</span>].values, <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'actual'</span>) </span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>ax.plot(daily_usage[<span class="st">'pred_usage'</span>].values, <span class="st">'k--'</span>, label<span class="op">=</span><span class="st">'ARMA(0,2)'</span>) </span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Time'</span>)</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Energy consumption'</span>)</span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>ax.axvspan(<span class="dv">161</span>, <span class="dv">180</span>, color<span class="op">=</span><span class="st">'#808080'</span>, alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a> </span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>ax.plot(daily_usage[<span class="st">'sum'</span>].values, <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'actual'</span>) </span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a>ax.plot(daily_usage[<span class="st">'pred_usage'</span>].values, <span class="st">'k--'</span>, label<span class="op">=</span><span class="st">'ARMA(0,2)'</span>) </span>
+<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a> </span>
+<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a> </span>
+<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Time'</span>)</span>
+<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Energy consumption'</span>)</span>
+<span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a>ax.axvspan(<span class="dv">161</span>, <span class="dv">180</span>, color<span class="op">=</span><span class="st">'#808080'</span>, alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a></span>
+<span id="cb35-12"><a href="#cb35-12" tabindex="-1"></a>fig.autofmt_xdate()</span>
+<span id="cb35-13"><a href="#cb35-13" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
 </div>
-<figure><img src=".././fig/ep5_fig7.png" alt="" class="figure mx-auto d-block"><figcaption>Final plot of ARMA(0, 2) forecast compared to actual
-values.</figcaption></figure><div id="keypoints1" class="callout keypoints">
+<figure><img src=".././fig/ep5_fig7.png" alt="Final plot of ARMA(0, 2) forecast compared to actual values." class="figure mx-auto d-block"><div class="figcaption">Final plot of ARMA(0, 2) forecast compared to
+actual values.</div>
+</figure><div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
 </div>
@@ -920,7 +929,7 @@ any links that you are not going to use.
   "identifier": "https://carpentries-incubator.github.io/python-modeling-power-consumption/instructor/05-autoregressive-moving-average.html",
   "dateCreated": "2023-08-29",
   "dateModified": "2023-08-18",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

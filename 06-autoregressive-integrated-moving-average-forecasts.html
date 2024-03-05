@@ -358,40 +358,40 @@ stationary, this subset will require second order differencing.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.stattools <span class="im">import</span> adfuller</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_acf</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_pacf</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.statespace.sarimax <span class="im">import</span> SARIMAX</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_absolute_error</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.stattools <span class="im">import</span> adfuller</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_acf</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_pacf</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.statespace.sarimax <span class="im">import</span> SARIMAX</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_absolute_error</span></code></pre>
 </div>
 <p>We will reuse our function for reading, subsetting, and resampling
 the data.</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> subset_resample(fpath, sample_freq, start_date, end_date<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(fpath)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    df.set_index(pd.to_datetime(df[<span class="st">"INTERVAL_TIME"</span>]), inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    df.sort_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> end_date:</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        date_subset <span class="op">=</span> df.loc[start_date: end_date].copy()</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        date_subset <span class="op">=</span> df.loc[start_date].copy()</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    resampled_data <span class="op">=</span> date_subset.resample(sample_freq)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> resampled_data</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="kw">def</span> subset_resample(fpath, sample_freq, start_date, end_date<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(fpath)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>    df.set_index(pd.to_datetime(df[<span class="st">"INTERVAL_TIME"</span>]), inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>    df.sort_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>    <span class="cf">if</span> end_date:</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>        date_subset <span class="op">=</span> df.loc[start_date: end_date].copy()</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>        date_subset <span class="op">=</span> df.loc[start_date].copy()</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>    resampled_data <span class="op">=</span> date_subset.resample(sample_freq)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>    <span class="cf">return</span> resampled_data</span></code></pre>
 </div>
 <p>This time we call our function with different arguments for the file
 path and the date range of the subset.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fp <span class="op">=</span> <span class="st">"../../data/ladpu_smart_meter_data_02.csv"</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data_subset_resampled <span class="op">=</span> subset_resample(fp, <span class="st">"D"</span>, <span class="st">"2019-04"</span>, end_date<span class="op">=</span><span class="st">"2019-06"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Data type of returned object:"</span>, <span class="bu">type</span>(data_subset_resampled))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>fp <span class="op">=</span> <span class="st">"../../data/ladpu_smart_meter_data_02.csv"</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>data_subset_resampled <span class="op">=</span> subset_resample(fp, <span class="st">"D"</span>, <span class="st">"2019-04"</span>, end_date<span class="op">=</span><span class="st">"2019-06"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Data type of returned object:"</span>, <span class="bu">type</span>(data_subset_resampled))</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -404,9 +404,9 @@ of the grouped statistics.</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>daily_usage <span class="op">=</span> data_subset_resampled[<span class="st">'INTERVAL_READ'</span>].agg([np.<span class="bu">sum</span>])</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(daily_usage.info())</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(daily_usage.head())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>daily_usage <span class="op">=</span> data_subset_resampled[<span class="st">'INTERVAL_READ'</span>].agg([np.<span class="bu">sum</span>])</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="bu">print</span>(daily_usage.info())</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="bu">print</span>(daily_usage.head())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -432,17 +432,18 @@ INTERVAL_TIME
 <p>Plot the data - the date range is smaller than previous examples, and
 there is a notable trend in increased power consumption toward the end
 of the date range.</p>
-<figure><img src="./fig/ep6_fig1.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of power consumption from a single smart
-meter.</figcaption></figure></section><section id="determine-the-integration-order-of-the-process"><h2 class="section-heading">Determine the integration order of the process<a class="anchor" aria-label="anchor" href="#determine-the-integration-order-of-the-process"></a>
+<figure><img src="./fig/ep6_fig1.png" alt="Plot of power consumption from a single smart meter." class="figure mx-auto d-block"><div class="figcaption">Plot of power consumption from a single smart
+meter.</div>
+</figure></section><section id="determine-the-integration-order-of-the-process"><h2 class="section-heading">Determine the integration order of the process<a class="anchor" aria-label="anchor" href="#determine-the-integration-order-of-the-process"></a>
 </h2>
 <hr class="half-width"><p>Not surprisingly, the AD Fuller statistic indicates that the
 time-series is not stationary.</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ADF_result <span class="op">=</span> adfuller(daily_usage[<span class="st">'sum'</span>])     </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'ADF Statistic: </span><span class="sc">{</span>ADF_result[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>)      </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'p-value: </span><span class="sc">{</span>ADF_result[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">'</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>ADF_result <span class="op">=</span> adfuller(daily_usage[<span class="st">'sum'</span>])     </span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'ADF Statistic: </span><span class="sc">{</span>ADF_result[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>)      </span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'p-value: </span><span class="sc">{</span>ADF_result[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">'</span>)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -455,11 +456,11 @@ but still indicates that the data are not stationary.</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>daily_usage_diff <span class="op">=</span> np.diff(daily_usage[<span class="st">'sum'</span>], n <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>ADF_result <span class="op">=</span> adfuller(daily_usage_diff)     </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'ADF Statistic: </span><span class="sc">{</span>ADF_result[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>)      </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'p-value: </span><span class="sc">{</span>ADF_result[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">'</span>)   </span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>daily_usage_diff <span class="op">=</span> np.diff(daily_usage[<span class="st">'sum'</span>], n <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>ADF_result <span class="op">=</span> adfuller(daily_usage_diff)     </span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'ADF Statistic: </span><span class="sc">{</span>ADF_result[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>)      </span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'p-value: </span><span class="sc">{</span>ADF_result[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">'</span>)   </span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -472,12 +473,12 @@ p-value now indicate that our time-series is stationary.</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>daily_usage_diff2 <span class="op">=</span> np.diff(daily_usage_diff, n<span class="op">=</span><span class="dv">1</span>)        </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>ad_fuller_result <span class="op">=</span> adfuller(daily_usage_diff2)    </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'ADF Statistic: </span><span class="sc">{</span>ad_fuller_result[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'p-value: </span><span class="sc">{</span>ad_fuller_result[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">'</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>daily_usage_diff2 <span class="op">=</span> np.diff(daily_usage_diff, n<span class="op">=</span><span class="dv">1</span>)        </span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a> </span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>ad_fuller_result <span class="op">=</span> adfuller(daily_usage_diff2)    </span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a> </span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'ADF Statistic: </span><span class="sc">{</span>ad_fuller_result[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'p-value: </span><span class="sc">{</span>ad_fuller_result[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">'</span>)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -496,10 +497,10 @@ integration order is 2.</p>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> daily_usage[:<span class="bu">int</span>(<span class="bu">len</span>(daily_usage) <span class="op">*</span> <span class="fl">.9</span>)].copy() <span class="co"># ~90% of data</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> daily_usage[<span class="bu">int</span>(<span class="bu">len</span>(daily_usage) <span class="op">*</span> <span class="fl">.9</span>):].copy() <span class="co"># ~10% of data        </span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Training data length:"</span>, <span class="bu">len</span>(train))</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test data length:"</span>, <span class="bu">len</span>(test))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>train <span class="op">=</span> daily_usage[:<span class="bu">int</span>(<span class="bu">len</span>(daily_usage) <span class="op">*</span> <span class="fl">.9</span>)].copy() <span class="co"># ~90% of data</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>test <span class="op">=</span> daily_usage[<span class="bu">int</span>(<span class="bu">len</span>(daily_usage) <span class="op">*</span> <span class="fl">.9</span>):].copy() <span class="co"># ~10% of data        </span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Training data length:"</span>, <span class="bu">len</span>(train))</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test data length:"</span>, <span class="bu">len</span>(test))</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -511,18 +512,19 @@ Test data length: 10</code></pre>
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fig, (ax1) <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">1</span>, sharex<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))                   </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ax1.plot(daily_usage[<span class="st">'sum'</span>].values)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">'Time'</span>)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">'Energy use'</span>)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>ax1.axvspan(<span class="dv">81</span>, <span class="dv">91</span>, color<span class="op">=</span><span class="st">'#808080'</span>, alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>fig, (ax1) <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">1</span>, sharex<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))                   </span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a> </span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>ax1.plot(daily_usage[<span class="st">'sum'</span>].values)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>ax1.set_xlabel(<span class="st">'Time'</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>ax1.set_ylabel(<span class="st">'Energy use'</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>ax1.axvspan(<span class="dv">81</span>, <span class="dv">91</span>, color<span class="op">=</span><span class="st">'#808080'</span>, alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>fig.autofmt_xdate()</span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
 </div>
-<figure><img src="./fig/ep6_fig2.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of non-stationary time-series with forecast
-range shaded.</figcaption></figure></section><section id="determine-the-armap-q-orders-of-the-process"><h2 class="section-heading">Determine the ARMA(p, q) orders of the process<a class="anchor" aria-label="anchor" href="#determine-the-armap-q-orders-of-the-process"></a>
+<figure><img src="./fig/ep6_fig2.png" alt="Plot of non-stationary time-series with forecast range shaded." class="figure mx-auto d-block"><div class="figcaption">Plot of non-stationary time-series with forecast
+range shaded.</div>
+</figure></section><section id="determine-the-armap-q-orders-of-the-process"><h2 class="section-heading">Determine the ARMA(p, q) orders of the process<a class="anchor" aria-label="anchor" href="#determine-the-armap-q-orders-of-the-process"></a>
 </h2>
 <hr class="half-width"><p>In addition to the integration order, we also need to know the orders
 of the AR(p) and MA(q) processes. We can determine these using the
@@ -531,15 +533,15 @@ we create a list of possible <em>p</em> and <em>q</em> values.</p>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> product</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>p_vals <span class="op">=</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">1</span>)                  </span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>q_vals <span class="op">=</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">1</span>)                  </span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>order_list <span class="op">=</span> <span class="bu">list</span>(product(p_vals, q_vals))</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> o <span class="kw">in</span> order_list:</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(o)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> product</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>p_vals <span class="op">=</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">1</span>)                  </span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>q_vals <span class="op">=</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">1</span>)                  </span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a> </span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>order_list <span class="op">=</span> <span class="bu">list</span>(product(p_vals, q_vals))</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="cf">for</span> o <span class="kw">in</span> order_list:</span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>    <span class="bu">print</span>(o)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -568,20 +570,20 @@ include the integration order as an argument that is passed to the
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit_eval_AIC(data, order_list, i_order):</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    aic_results <span class="op">=</span> []</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> o <span class="kw">in</span> order_list:</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> SARIMAX(data, order<span class="op">=</span>(o[<span class="dv">0</span>], i_order, o[<span class="dv">1</span>]),</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                        simple_differencing<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> model.fit(disp<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        aic <span class="op">=</span> res.aic</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>        aic_results.append([o, aic])</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    result_df <span class="op">=</span> pd.DataFrame(aic_results, columns<span class="op">=</span>([<span class="st">'(p, q)'</span>, <span class="st">'AIC'</span>]))</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    result_df.sort_values(by<span class="op">=</span><span class="st">'AIC'</span>, ascending<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    result_df.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result_df</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="kw">def</span> fit_eval_AIC(data, order_list, i_order):</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>    aic_results <span class="op">=</span> []</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>    <span class="cf">for</span> o <span class="kw">in</span> order_list:</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>        model <span class="op">=</span> SARIMAX(data, order<span class="op">=</span>(o[<span class="dv">0</span>], i_order, o[<span class="dv">1</span>]),</span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>                        simple_differencing<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>        res <span class="op">=</span> model.fit(disp<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>        aic <span class="op">=</span> res.aic</span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>        aic_results.append([o, aic])</span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>        </span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a>    result_df <span class="op">=</span> pd.DataFrame(aic_results, columns<span class="op">=</span>([<span class="st">'(p, q)'</span>, <span class="st">'AIC'</span>]))</span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>    result_df.sort_values(by<span class="op">=</span><span class="st">'AIC'</span>, ascending<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a>    result_df.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a>    </span>
+<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a>    <span class="cf">return</span> result_df</span></code></pre>
 </div>
 <p>Passing our training data to a function call of our AIC evaluation
 function, the result indicates that the model with the best comparative
@@ -590,9 +592,9 @@ gives us an optimized ARIMA(2, 2, 3) process.</p>
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>i_order <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>result_df <span class="op">=</span> fit_eval_AIC(train, order_list, i_order)   </span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result_df)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>i_order <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>result_df <span class="op">=</span> fit_eval_AIC(train, order_list, i_order)   </span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="bu">print</span>(result_df)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -621,11 +623,12 @@ this using <code>plot_diagnostics()</code>.</p>
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> SARIMAX(train, order<span class="op">=</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>), simple_differencing<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>model_fit <span class="op">=</span> model.fit(disp<span class="op">=</span><span class="va">False</span>) </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>model_fit.plot_diagnostics(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">8</span>))<span class="op">;</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>model <span class="op">=</span> SARIMAX(train, order<span class="op">=</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>), simple_differencing<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>model_fit <span class="op">=</span> model.fit(disp<span class="op">=</span><span class="va">False</span>) </span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>model_fit.plot_diagnostics(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">8</span>))<span class="op">;</span></span></code></pre>
 </div>
-<figure><img src="./fig/ep6_fig3.png" alt="" class="figure mx-auto d-block"><figcaption>Diagnostic plot of ARIMA(2, 2, 3) process.</figcaption></figure></section><section id="forecast-using-an-arima2-2-3-process"><h2 class="section-heading">Forecast using an ARIMA(2, 2, 3) process<a class="anchor" aria-label="anchor" href="#forecast-using-an-arima2-2-3-process"></a>
+<figure><img src="./fig/ep6_fig3.png" alt="Diagnostic plot of ARIMA(2, 2, 3) process." class="figure mx-auto d-block"><div class="figcaption">Diagnostic plot of ARIMA(2, 2, 3) process.</div>
+</figure></section><section id="forecast-using-an-arima2-2-3-process"><h2 class="section-heading">Forecast using an ARIMA(2, 2, 3) process<a class="anchor" aria-label="anchor" href="#forecast-using-an-arima2-2-3-process"></a>
 </h2>
 <hr class="half-width"><p>One advantage to using the non-stationary time-series to diagnose the
 optimized ARIMA(2, 2, 3) model is that predictions are an attribute of
@@ -640,8 +643,8 @@ the forecast for the ten values of the test set.</p>
 <div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>test[<span class="st">'naive_seasonal'</span>] <span class="op">=</span> train[<span class="st">'sum'</span>].iloc[<span class="dv">71</span>:<span class="dv">81</span>].values</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>test[<span class="st">'naive_seasonal'</span>] <span class="op">=</span> train[<span class="st">'sum'</span>].iloc[<span class="dv">71</span>:<span class="dv">81</span>].values</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="bu">print</span>(test)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -665,11 +668,11 @@ days of the test set.</p>
 <div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>pred_ARIMA <span class="op">=</span> model_fit.get_prediction(<span class="dv">81</span>, <span class="dv">91</span>).predicted_mean</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># add these to a new column in test set</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>test[<span class="st">'pred_ARIMA'</span>] <span class="op">=</span> pred_ARIMA</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>pred_ARIMA <span class="op">=</span> model_fit.get_prediction(<span class="dv">81</span>, <span class="dv">91</span>).predicted_mean</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a><span class="co"># add these to a new column in test set</span></span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>test[<span class="st">'pred_ARIMA'</span>] <span class="op">=</span> pred_ARIMA</span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a><span class="bu">print</span>(test)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -692,11 +695,11 @@ model using the mean absolute error.</p>
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>mae_naive_seasonal <span class="op">=</span> mean_absolute_error(test[<span class="st">'sum'</span>], test[<span class="st">'naive_seasonal'</span>])   </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>mae_ARIMA <span class="op">=</span> mean_absolute_error(test[<span class="st">'sum'</span>], test[<span class="st">'pred_ARIMA'</span>])                </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mean absolute error, baseline:"</span>, mae_naive_seasonal)</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mean absolute error, ARMA(2, 2, 3):"</span>, mae_ARIMA)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>mae_naive_seasonal <span class="op">=</span> mean_absolute_error(test[<span class="st">'sum'</span>], test[<span class="st">'naive_seasonal'</span>])   </span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>mae_ARIMA <span class="op">=</span> mean_absolute_error(test[<span class="st">'sum'</span>], test[<span class="st">'pred_ARIMA'</span>])                </span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a> </span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mean absolute error, baseline:"</span>, mae_naive_seasonal)</span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mean absolute error, ARMA(2, 2, 3):"</span>, mae_ARIMA)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -708,22 +711,24 @@ Mean absolute error, ARMA(2, 2, 3): 4.297101587602739</code></pre>
 <div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>ax.plot(daily_usage[<span class="st">'sum'</span>])</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'sum'</span>], <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'actual'</span>)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'naive_seasonal'</span>], <span class="st">'r:'</span>, label<span class="op">=</span><span class="st">'naive seasonal'</span>)</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_ARIMA'</span>], <span class="st">'k--'</span>, label<span class="op">=</span><span class="st">'ARIMA(2,2,3)'</span>)</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Date'</span>)</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Electricity consumption'</span>)</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>ax.plot(daily_usage[<span class="st">'sum'</span>])</span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>ax.plot(test[<span class="st">'sum'</span>], <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'actual'</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>ax.plot(test[<span class="st">'naive_seasonal'</span>], <span class="st">'r:'</span>, label<span class="op">=</span><span class="st">'naive seasonal'</span>)</span>
+<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_ARIMA'</span>], <span class="st">'k--'</span>, label<span class="op">=</span><span class="st">'ARIMA(2,2,3)'</span>)</span>
+<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb28-9"><a href="#cb28-9" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Electricity consumption'</span>)</span>
+<span id="cb28-10"><a href="#cb28-10" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb28-12"><a href="#cb28-12" tabindex="-1"></a></span>
+<span id="cb28-13"><a href="#cb28-13" tabindex="-1"></a>fig.autofmt_xdate()</span>
+<span id="cb28-14"><a href="#cb28-14" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
 </div>
-<figure><img src="./fig/ep6_fig4.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of baseline and ARIMA(2, 2, 3) forecasts.</figcaption></figure><div id="keypoints1" class="callout keypoints">
+<figure><img src="./fig/ep6_fig4.png" alt="Plot of baseline and ARIMA(2, 2, 3) forecasts." class="figure mx-auto d-block"><div class="figcaption">Plot of baseline and ARIMA(2, 2, 3)
+forecasts.</div>
+</figure><div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
 </div>
@@ -799,7 +804,7 @@ any links that you are not going to use.
   "identifier": "https://carpentries-incubator.github.io/python-modeling-power-consumption/06-autoregressive-integrated-moving-average-forecasts.html",
   "dateCreated": "2023-08-29",
   "dateModified": "2023-08-18",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

@@ -367,16 +367,16 @@ episode. First, we need to import libraries.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre>
 </div>
 <p>Then we read the data and create the datetime index.</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../data/ladpu_smart_meter_data_10.csv"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.info())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../data/ladpu_smart_meter_data_10.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="bu">print</span>(df.info())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -397,10 +397,10 @@ memory usage: 4.0+ MB</code></pre>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set datetime index</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df.set_index(pd.to_datetime(df[<span class="st">"INTERVAL_TIME"</span>]), inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df.sort_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.info())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Set datetime index</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>df.set_index(pd.to_datetime(df[<span class="st">"INTERVAL_TIME"</span>]), inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>df.sort_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="bu">print</span>(df.info())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -428,21 +428,23 @@ from a single meter every fifteen minutes over the course of three
 years. This gives us a dataset that consists of 105,012 rows of meter
 readings taken at a frequency which makes baseline forecasts less
 effective.</p>
-<figure><img src=".././fig/ep2_fig1_plot_all.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of readings from a single meter, 2017-2019</figcaption></figure><p>For our current purposes, we will subset the data to a period with
+<figure><img src=".././fig/ep2_fig1_plot_all.png" alt="Plot of readings from a single meter, 2017-2019" class="figure mx-auto d-block"><div class="figcaption">Plot of readings from a single meter,
+2017-2019</div>
+</figure><p>For our current purposes, we will subset the data to a period with
 fewer seasonal trends. Using datetime indexing we can select a subset of
 the data from the first six months of 2019.</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>jan_june_2019 <span class="op">=</span> df[<span class="st">"2019-03"</span>: <span class="st">"2019-07"</span>].copy()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>jan_june_2019 <span class="op">=</span> df[<span class="st">"2019-03"</span>: <span class="st">"2019-07"</span>].copy()</span></code></pre>
 </div>
 <p>We will also resample the data to a weekly frequency.</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>weekly_usage <span class="op">=</span> pd.DataFrame(jan_june_2019.resample(<span class="st">"W"</span>)[<span class="st">"INTERVAL_READ"</span>].<span class="bu">sum</span>())</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(weekly_usage.info()) <span class="co"># note the index range and freq</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(weekly_usage.head())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>weekly_usage <span class="op">=</span> pd.DataFrame(jan_june_2019.resample(<span class="st">"W"</span>)[<span class="st">"INTERVAL_READ"</span>].<span class="bu">sum</span>())</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="bu">print</span>(weekly_usage.info()) <span class="co"># note the index range and freq</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="bu">print</span>(weekly_usage.head())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -472,20 +474,21 @@ of the data influence different baseline forecasts.</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>ax.plot(weekly_usage[<span class="st">"INTERVAL_READ"</span>], label<span class="op">=</span><span class="st">"Weekly"</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>ax.plot(weekly_usage[<span class="st">"INTERVAL_READ"</span>].rolling(window<span class="op">=</span><span class="dv">4</span>).mean(), label<span class="op">=</span><span class="st">"4 week average"</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Date'</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Power consumption'</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>ax.plot(weekly_usage[<span class="st">"INTERVAL_READ"</span>], label<span class="op">=</span><span class="st">"Weekly"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>ax.plot(weekly_usage[<span class="st">"INTERVAL_READ"</span>].rolling(window<span class="op">=</span><span class="dv">4</span>).mean(), label<span class="op">=</span><span class="st">"4 week average"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Power consumption'</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>fig.autofmt_xdate()</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
 </div>
-<figure><img src=".././fig/ep2_fig2_plot_weekly.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of total weekly readings from a single meter,
-January - June, 2019</figcaption></figure></section><section id="create-subsets-for-training-and-testing-forecasts"><h2 class="section-heading">Create subsets for training and testing forecasts<a class="anchor" aria-label="anchor" href="#create-subsets-for-training-and-testing-forecasts"></a>
+<figure><img src=".././fig/ep2_fig2_plot_weekly.png" alt="Plot of total weekly readings from a single meter, January - June, 2019" class="figure mx-auto d-block"><div class="figcaption">Plot of total weekly readings from a single
+meter, January - June, 2019</div>
+</figure></section><section id="create-subsets-for-training-and-testing-forecasts"><h2 class="section-heading">Create subsets for training and testing forecasts<a class="anchor" aria-label="anchor" href="#create-subsets-for-training-and-testing-forecasts"></a>
 </h2>
 <hr class="half-width"><p>Throughout this lesson, as we develop more robust forecasting models
 we need to train the models using a large subset of our data to derive
@@ -499,11 +502,11 @@ compare the forecast against the actual values in the test dataset.</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> weekly_usage[:<span class="op">-</span><span class="dv">4</span>].copy()</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> weekly_usage[<span class="op">-</span><span class="dv">5</span>:].copy()</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(train.info())</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test.info())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>train <span class="op">=</span> weekly_usage[:<span class="op">-</span><span class="dv">4</span>].copy()</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>test <span class="op">=</span> weekly_usage[<span class="op">-</span><span class="dv">5</span>:].copy()</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="bu">print</span>(train.info())</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="bu">print</span>(test.info())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -538,9 +541,9 @@ consumption across the training dataset.</p>
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the mean of the training set</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>historical_mean <span class="op">=</span> np.mean(train[<span class="st">'INTERVAL_READ'</span>])</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Historical mean of the training data:"</span>, historical_mean)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># get the mean of the training set</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>historical_mean <span class="op">=</span> np.mean(train[<span class="st">'INTERVAL_READ'</span>])</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Historical mean of the training data:"</span>, historical_mean)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -552,27 +555,28 @@ four weeks of the test dataset.</p>
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>test.loc[:, <span class="st">'pred_mean'</span>] <span class="op">=</span> historical_mean</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>test.loc[:, <span class="st">'pred_mean'</span>] <span class="op">=</span> historical_mean</span></code></pre>
 </div>
 <p>Plotting the forecast shows that the same value has been applied to
 each week of the test dataset.</p>
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ax.plot(train[<span class="st">'INTERVAL_READ'</span>], <span class="st">'g-.'</span>, label<span class="op">=</span><span class="st">'Train'</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'INTERVAL_READ'</span>], <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'Test'</span>)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_mean'</span>], <span class="st">'r--'</span>, label<span class="op">=</span><span class="st">'Predicted'</span>)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Date'</span>)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Weekly power consumption'</span>)</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a> </span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>ax.plot(train[<span class="st">'INTERVAL_READ'</span>], <span class="st">'g-.'</span>, label<span class="op">=</span><span class="st">'Train'</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>ax.plot(test[<span class="st">'INTERVAL_READ'</span>], <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'Test'</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_mean'</span>], <span class="st">'r--'</span>, label<span class="op">=</span><span class="st">'Predicted'</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Weekly power consumption'</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>fig.autofmt_xdate()</span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
 </div>
-<figure><img src=".././fig/ep2_fig3_plot_historical_mean.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of total weekly readings from a single meter,
-January - June, 2019</figcaption></figure><p>The above plot is a qualitative method of evaluating the accuracy of
+<figure><img src=".././fig/ep2_fig3_plot_historical_mean.png" alt="Plot of total weekly readings from a single meter, January - June, 2019" class="figure mx-auto d-block"><div class="figcaption">Plot of total weekly readings from a single
+meter, January - June, 2019</div>
+</figure><p>The above plot is a qualitative method of evaluating the accuracy of
 the historical mean for forecasting our time series. Intuitively, we can
 see that it is not very accurate.</p>
 <p>Quantitatively, we can evaluate the accuracy of the forecasts based
@@ -582,19 +586,19 @@ function for it.</p>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean absolute percentage error</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># measure of prediction accuracy for forecasting methods</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mape(y_true, y_pred):</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.mean(np.<span class="bu">abs</span>((y_true <span class="op">-</span> y_pred)<span class="op">/</span> y_true)) <span class="op">*</span> <span class="dv">100</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># Mean absolute percentage error</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="co"># measure of prediction accuracy for forecasting methods</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="kw">def</span> mape(y_true, y_pred):</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>    <span class="cf">return</span> np.mean(np.<span class="bu">abs</span>((y_true <span class="op">-</span> y_pred)<span class="op">/</span> y_true)) <span class="op">*</span> <span class="dv">100</span></span></code></pre>
 </div>
 <p>Now we can calculate the mean average percentage error of the
 historical mean as a forecasting method.</p>
 <div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mape_hist_mean <span class="op">=</span> mape(test[<span class="st">'INTERVAL_READ'</span>], test[<span class="st">'pred_mean'</span>])</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MAPE of historical mean"</span>, mape_hist_mean)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>mape_hist_mean <span class="op">=</span> mape(test[<span class="st">'INTERVAL_READ'</span>], test[<span class="st">'pred_mean'</span>])</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MAPE of historical mean"</span>, mape_hist_mean)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -617,10 +621,10 @@ calculate the average power consumption across the last four rows.</p>
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># baseline using mean of last four weeks of training set</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>last_month_mean <span class="op">=</span> np.mean(train[<span class="st">'INTERVAL_READ'</span>][<span class="op">-</span><span class="dv">4</span>:])</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mean of previous timestep:"</span>, last_month_mean)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># baseline using mean of last four weeks of training set</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>last_month_mean <span class="op">=</span> np.mean(train[<span class="st">'INTERVAL_READ'</span>][<span class="op">-</span><span class="dv">4</span>:])</span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mean of previous timestep:"</span>, last_month_mean)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -633,8 +637,8 @@ been applied to each row.</p>
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>test.loc[:, <span class="st">'pred_last_mo_mean'</span>] <span class="op">=</span>  last_month_mean</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test.head())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>test.loc[:, <span class="st">'pred_last_mo_mean'</span>] <span class="op">=</span>  last_month_mean</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="bu">print</span>(test.head())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -650,27 +654,28 @@ INTERVAL_TIME
 <div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>ax.plot(train[<span class="st">'INTERVAL_READ'</span>], <span class="st">'g-.'</span>, label<span class="op">=</span><span class="st">'Train'</span>)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'INTERVAL_READ'</span>], <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'Test'</span>)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_last_mo_mean'</span>], <span class="st">'r--'</span>, label<span class="op">=</span><span class="st">'Predicted'</span>)</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Date'</span>)</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Daily power consumption'</span>)</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a> </span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>ax.plot(train[<span class="st">'INTERVAL_READ'</span>], <span class="st">'g-.'</span>, label<span class="op">=</span><span class="st">'Train'</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>ax.plot(test[<span class="st">'INTERVAL_READ'</span>], <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'Test'</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_last_mo_mean'</span>], <span class="st">'r--'</span>, label<span class="op">=</span><span class="st">'Predicted'</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Daily power consumption'</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>fig.autofmt_xdate()</span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
 </div>
-<figure><img src=".././fig/ep2_fig4_plot_prev_timestamp_mean.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of total weekly readings from a single meter,
-January - June, 2019</figcaption></figure><p>Plotting the data suggests that this forecast may be more accurate
+<figure><img src=".././fig/ep2_fig4_plot_prev_timestamp_mean.png" alt="Plot of total weekly readings from a single meter, January - June, 2019" class="figure mx-auto d-block"><div class="figcaption">Plot of total weekly readings from a single
+meter, January - June, 2019</div>
+</figure><p>Plotting the data suggests that this forecast may be more accurate
 than the historical mean, but we will evaluate the forecast using the
 mean average percentage error as well.</p>
 <div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mape_last_month_mean <span class="op">=</span> mape(test[<span class="st">'INTERVAL_READ'</span>], test[<span class="st">'pred_last_mo_mean'</span>])</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MAPE of the mean of the previous timestep forecast:"</span>, mape_last_month_mean)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>mape_last_month_mean <span class="op">=</span> mape(test[<span class="st">'INTERVAL_READ'</span>], test[<span class="st">'pred_last_mo_mean'</span>])</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MAPE of the mean of the previous timestep forecast:"</span>, mape_last_month_mean)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -686,8 +691,8 @@ forecast using the last recorded value in the training dataset.</p>
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>last <span class="op">=</span> train[<span class="st">'INTERVAL_READ'</span>].iloc[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Last recorded value in the training dataset:"</span>, last)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>last <span class="op">=</span> train[<span class="st">'INTERVAL_READ'</span>].iloc[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Last recorded value in the training dataset:"</span>, last)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -698,8 +703,8 @@ forecast using the last recorded value in the training dataset.</p>
 <div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>test.loc[:, <span class="st">'pred_last'</span>] <span class="op">=</span> last</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test.head())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>test.loc[:, <span class="st">'pred_last'</span>] <span class="op">=</span> last</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="bu">print</span>(test.head())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -717,24 +722,25 @@ average percentage error.</p>
 <div class="codewrapper sourceCode" id="cb30">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>ax.plot(train[<span class="st">'INTERVAL_READ'</span>], <span class="st">'g-.'</span>, label<span class="op">=</span><span class="st">'Train'</span>)</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'INTERVAL_READ'</span>], <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'Test'</span>)</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_last'</span>], <span class="st">'r--'</span>, label<span class="op">=</span><span class="st">'Predicted'</span>)</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Date'</span>)</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Daily power consumption'</span>)</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a> </span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>ax.plot(train[<span class="st">'INTERVAL_READ'</span>], <span class="st">'g-.'</span>, label<span class="op">=</span><span class="st">'Train'</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a>ax.plot(test[<span class="st">'INTERVAL_READ'</span>], <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'Test'</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_last'</span>], <span class="st">'r--'</span>, label<span class="op">=</span><span class="st">'Predicted'</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Daily power consumption'</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" tabindex="-1"></a>fig.autofmt_xdate()</span>
+<span id="cb30-11"><a href="#cb30-11" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
 </div>
-<figure><img src=".././fig/ep2_fig5_plot_prev_value.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of total weekly readings from a single meter,
-January - June, 2019</figcaption></figure><div class="codewrapper sourceCode" id="cb31">
+<figure><img src=".././fig/ep2_fig5_plot_prev_value.png" alt="Plot of total weekly readings from a single meter, January - June, 2019" class="figure mx-auto d-block"><div class="figcaption">Plot of total weekly readings from a single
+meter, January - June, 2019</div>
+</figure><div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>mape_last <span class="op">=</span> mape(test[<span class="st">'INTERVAL_READ'</span>], test[<span class="st">'pred_last'</span>])</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MAPE of the mean of the last recorded value forecast:"</span>, mape_last)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>mape_last <span class="op">=</span> mape(test[<span class="st">'INTERVAL_READ'</span>], test[<span class="st">'pred_last'</span>])</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MAPE of the mean of the last recorded value forecast:"</span>, mape_last)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -759,8 +765,8 @@ of the test dataset.</p>
 <div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>test.loc[:, <span class="st">'pred_last_month'</span>] <span class="op">=</span> train[<span class="st">'INTERVAL_READ'</span>][<span class="op">-</span><span class="dv">5</span>:].values</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test.head())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>test.loc[:, <span class="st">'pred_last_month'</span>] <span class="op">=</span> train[<span class="st">'INTERVAL_READ'</span>][<span class="op">-</span><span class="dv">5</span>:].values</span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="bu">print</span>(test.head())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -781,24 +787,25 @@ forecasts.</p>
 <div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>ax.plot(train[<span class="st">'INTERVAL_READ'</span>], <span class="st">'g-.'</span>, label<span class="op">=</span><span class="st">'Train'</span>)</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'INTERVAL_READ'</span>], <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'Test'</span>)</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_last_month'</span>], <span class="st">'r--'</span>, label<span class="op">=</span><span class="st">'Predicted'</span>)</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Date'</span>)</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Daily power consumption'</span>)</span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>fig.autofmt_xdate()</span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a> </span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>ax.plot(train[<span class="st">'INTERVAL_READ'</span>], <span class="st">'g-.'</span>, label<span class="op">=</span><span class="st">'Train'</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a>ax.plot(test[<span class="st">'INTERVAL_READ'</span>], <span class="st">'b-'</span>, label<span class="op">=</span><span class="st">'Test'</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a>ax.plot(test[<span class="st">'pred_last_month'</span>], <span class="st">'r--'</span>, label<span class="op">=</span><span class="st">'Predicted'</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Daily power consumption'</span>)</span>
+<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a></span>
+<span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a>fig.autofmt_xdate()</span>
+<span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a>plt.tight_layout()</span></code></pre>
 </div>
-<figure><img src=".././fig/ep2_fig6_plot_prev_timestep_value.png" alt="" class="figure mx-auto d-block"><figcaption>Plot of total weekly readings from a single meter,
-January - June, 2019</figcaption></figure><div class="codewrapper sourceCode" id="cb36">
+<figure><img src=".././fig/ep2_fig6_plot_prev_timestep_value.png" alt="Plot of total weekly readings from a single meter, January - June, 2019" class="figure mx-auto d-block"><div class="figcaption">Plot of total weekly readings from a single
+meter, January - June, 2019</div>
+</figure><div class="codewrapper sourceCode" id="cb36">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>pe_naive_seasonal <span class="op">=</span> mape(test[<span class="st">'INTERVAL_READ'</span>], test[<span class="st">'pred_last_month'</span>])</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MAPE of forecast using previous timestep values:"</span>, mape_naive_seasonal)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>pe_naive_seasonal <span class="op">=</span> mape(test[<span class="st">'INTERVAL_READ'</span>], test[<span class="st">'pred_last_month'</span>])</span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MAPE of forecast using previous timestep values:"</span>, mape_naive_seasonal)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -888,7 +895,7 @@ any links that you are not going to use.
   "identifier": "https://carpentries-incubator.github.io/python-modeling-power-consumption/instructor/02-baseline-forecasts.html",
   "dateCreated": "2023-08-29",
   "dateModified": "2023-08-14",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>
