@@ -27,7 +27,7 @@
             <span class="visually-hidden">This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.</span>
           </abbr>
         </span>
-        
+
       </div>
     </div>
     <div class="selector-container">
@@ -56,7 +56,7 @@
             </li>
           </ul></li>
       </div>
-      
+
       <div class="dropdown" id="instructor-dropdown">
         <button class="btn btn-secondary dropdown-toggle bordered-button" type="button" id="dropdownMenu1" data-bs-toggle="dropdown" aria-expanded="false">
           <i aria-hidden="true" class="icon" data-feather="eye"></i> Instructor View <i data-feather="chevron-down"></i>
@@ -180,7 +180,7 @@
                 </div><!--/div.accordion-flush-->
               </div><!--div.sidenav-view-selector -->
             </div><!--/div.col -->
-      
+
             <hr></div><!--/div.mobile-row -->
 
           <div class="accordion accordion-flush" id="accordionFlush11">
@@ -199,7 +199,7 @@
     <div class="accordion-header" id="flush-heading1">
         <a href="index.html">Summary and Schedule</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -208,7 +208,7 @@
     <div class="accordion-header" id="flush-heading2">
         <a href="01-introduction.html">1. Introduction to Time-series Forecasting</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -217,7 +217,7 @@
     <div class="accordion-header" id="flush-heading3">
         <a href="02-baseline-forecasts.html">2. Baseline Metrics for Timeseries Forecasts</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -226,7 +226,7 @@
     <div class="accordion-header" id="flush-heading4">
         <a href="03-moving-average-forecasts.html">3. Moving Average Forecasts</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -235,7 +235,7 @@
     <div class="accordion-header" id="flush-heading5">
         <a href="04-autoregressive-forecasts.html">4. Autoregressive Forecasts</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -244,7 +244,7 @@
     <div class="accordion-header" id="flush-heading6">
         <a href="05-autoregressive-moving-average.html">5. Autoregressive Moving Average Forecasts</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -258,7 +258,7 @@
         </span>
       </button>
     </div><!--/div.accordion-header-->
-        
+
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#introduction">Introduction</a></li>
@@ -269,7 +269,7 @@
 <li><a href="#forecast-using-an-arima2-2-3-process">Forecast using an ARIMA(2, 2, 3) process</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -278,7 +278,7 @@
     <div class="accordion-header" id="flush-heading8">
         <a href="07-seasonal-arima-forecasts.html">7. Seasonal Autoregressive Integrated Moving Average Forecasts</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -310,10 +310,10 @@
               </div>
             </div>
             <hr class="half-width resources"><a href="../instructor/aio.html">See all in one page</a>
-            
+
 
             <hr class="d-none d-sm-block d-md-none"><div class="d-grid gap-1">
-            
+
             </div>
           </div><!-- /div.accordion -->
         </div><!-- /div.sidebar-inner -->
@@ -334,20 +334,20 @@
           Previous: Autoregressive
         </a>
         <a class="chapter-link float-end" href="../instructor/07-seasonal-arima-forecasts.html" rel="next">
-          Next: Seasonal... 
+          Next: Seasonal...
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Autoregressive Integrated Moving Average Forecasts</h1>
         <p>Last updated on 2023-08-18 |
-        
+
         <a href="https://github.com/carpentries-incubator/python-modeling-power-consumption/edit/main/episodes/06-autoregressive-integrated-moving-average-forecasts.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-        
-        
-        
+
+
+
         <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 50 minutes</p>
-        
+
         <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -376,8 +376,8 @@ d, q)</em> argument.</li>
 </div>
 </div>
 </div>
-<section id="introduction"><h2 class="section-heading">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h2>
+<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
 <hr class="half-width"><p>The smart meter data with which we have been modeling forecasts
 throughout this lesson are non-stationary. That is, there are trends in
 the data. An assumption of the moving average and autoregressive models
@@ -389,8 +389,8 @@ autoregressive integrated moving average or ARIMA(p,d, q) model. In this
 model, as before, the <em>p</em> is the order of the AR(p) process and
 the <em>q</em> is the order of the MA(q) process. Now we will further
 specify the <em>d</em> parameter, which is the integration order.</p>
-</section><section id="about-the-code"><h2 class="section-heading">About the code<a class="anchor" aria-label="anchor" href="#about-the-code"></a>
-</h2>
+</section><section><h2 class="section-heading" id="about-the-code">About the code<a class="anchor" aria-label="anchor" href="#about-the-code"></a>
+<a class="anchor" aria-label="anchor" href="#about-the-code"></a></h2>
 <hr class="half-width"><p>The code used in this lesson is based on and, in some cases, a direct
 application of code used in the Manning Publications title, <em>Time
 series forecasting in Python</em>, by Marco Peixeiro.</p>
@@ -408,8 +408,8 @@ cite the source code developed by Peixeiro:</p>
 <p>Peixeiro, Marco. Timeseries Forecasting in Python [Software code].
 2022. Accessed from <a href="https://github.com/marcopeix/TimeSeriesForecastingInPython" class="external-link">https://github.com/marcopeix/TimeSeriesForecastingInPython</a>.</p>
 </blockquote>
-</section><section id="create-the-data-subset"><h2 class="section-heading">Create the data subset<a class="anchor" aria-label="anchor" href="#create-the-data-subset"></a>
-</h2>
+</section><section><h2 class="section-heading" id="create-the-data-subset">Create the data subset<a class="anchor" aria-label="anchor" href="#create-the-data-subset"></a>
+<a class="anchor" aria-label="anchor" href="#create-the-data-subset"></a></h2>
 <hr class="half-width"><p>In order to more fully demonstrate the integration order of the
 process, we are going to generate a different subset that needs to be
 differenced twice before it is stationary. That is, whereas all of our
@@ -476,14 +476,14 @@ of the grouped statistics.</p>
 DatetimeIndex: 91 entries, 2019-04-01 to 2019-06-30
 Freq: D
 Data columns (total 1 columns):
- #   Column  Non-Null Count  Dtype  
----  ------  --------------  -----  
+ #   Column  Non-Null Count  Dtype
+---  ------  --------------  -----
  0   sum     91 non-null     float64
 dtypes: float64(1)
 memory usage: 1.4 KB
 None
                    sum
-INTERVAL_TIME         
+INTERVAL_TIME
 2019-04-01     10.4928
 2019-04-02     13.8258
 2019-04-03      9.1350
@@ -495,8 +495,8 @@ there is a notable trend in increased power consumption toward the end
 of the date range.</p>
 <figure><img src=".././fig/ep6_fig1.png" alt="Plot of power consumption from a single smart meter." class="figure mx-auto d-block"><div class="figcaption">Plot of power consumption from a single smart
 meter.</div>
-</figure></section><section id="determine-the-integration-order-of-the-process"><h2 class="section-heading">Determine the integration order of the process<a class="anchor" aria-label="anchor" href="#determine-the-integration-order-of-the-process"></a>
-</h2>
+</figure></section><section><h2 class="section-heading" id="determine-the-integration-order-of-the-process">Determine the integration order of the process<a class="anchor" aria-label="anchor" href="#determine-the-integration-order-of-the-process"></a>
+<a class="anchor" aria-label="anchor" href="#determine-the-integration-order-of-the-process"></a></h2>
 <hr class="half-width"><p>Not surprisingly, the AD Fuller statistic indicates that the
 time-series is not stationary.</p>
 <div class="codewrapper sourceCode" id="cb7">
@@ -585,8 +585,8 @@ Test data length: 10</code></pre>
 </div>
 <figure><img src=".././fig/ep6_fig2.png" alt="Plot of non-stationary time-series with forecast range shaded." class="figure mx-auto d-block"><div class="figcaption">Plot of non-stationary time-series with forecast
 range shaded.</div>
-</figure></section><section id="determine-the-armap-q-orders-of-the-process"><h2 class="section-heading">Determine the ARMA(p, q) orders of the process<a class="anchor" aria-label="anchor" href="#determine-the-armap-q-orders-of-the-process"></a>
-</h2>
+</figure></section><section><h2 class="section-heading" id="determine-the-armap-q-orders-of-the-process">Determine the ARMA(p, q) orders of the process<a class="anchor" aria-label="anchor" href="#determine-the-armap-q-orders-of-the-process"></a>
+<a class="anchor" aria-label="anchor" href="#determine-the-armap-q-orders-of-the-process"></a></h2>
 <hr class="half-width"><p>In addition to the integration order, we also need to know the orders
 of the AR(p) and MA(q) processes. We can determine these using the
 Akaike information criterion, as before. The process is the same. First,
@@ -689,8 +689,8 @@ this using <code>plot_diagnostics()</code>.</p>
 <span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>model_fit.plot_diagnostics(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">8</span>))<span class="op">;</span></span></code></pre>
 </div>
 <figure><img src=".././fig/ep6_fig3.png" alt="Diagnostic plot of ARIMA(2, 2, 3) process." class="figure mx-auto d-block"><div class="figcaption">Diagnostic plot of ARIMA(2, 2, 3) process.</div>
-</figure></section><section id="forecast-using-an-arima2-2-3-process"><h2 class="section-heading">Forecast using an ARIMA(2, 2, 3) process<a class="anchor" aria-label="anchor" href="#forecast-using-an-arima2-2-3-process"></a>
-</h2>
+</figure></section><section><h2 class="section-heading" id="forecast-using-an-arima2-2-3-process">Forecast using an ARIMA(2, 2, 3) process<a class="anchor" aria-label="anchor" href="#forecast-using-an-arima2-2-3-process"></a>
+<a class="anchor" aria-label="anchor" href="#forecast-using-an-arima2-2-3-process"></a></h2>
 <hr class="half-width"><p>One advantage to using the non-stationary time-series to diagnose the
 optimized ARIMA(2, 2, 3) model is that predictions are an attribute of
 the corresponding SARIMAX model. That is, we don’t have to define a
@@ -711,7 +711,7 @@ the forecast for the ten values of the test set.</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>                   sum  naive_seasonal
-INTERVAL_TIME                         
+INTERVAL_TIME
 2019-06-21     32.2602         35.1876
 2019-06-22     21.7008         23.6634
 2019-06-23     24.4098         38.0220
@@ -739,7 +739,7 @@ days of the test set.</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>                   sum  naive_seasonal  pred_ARIMA
-INTERVAL_TIME                                     
+INTERVAL_TIME
 2019-06-21     32.2602         35.1876   36.311936
 2019-06-22     21.7008         23.6634   30.731745
 2019-06-23     24.4098         38.0220   35.999676
@@ -802,9 +802,9 @@ SARIMAX model can be used to forecast non-stationary time-series.</li>
 </ul></div>
 </div>
 </div>
-<!-- 
+<!--
 Place links that you need to refer to multiple times across pages here. Delete
-any links that you are not going to use. 
+any links that you are not going to use.
  -->
 </section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
@@ -818,7 +818,7 @@ any links that you are not going to use.
           Previous: Autoregressive
         </a>
         <a class="chapter-link float-end" href="../instructor/07-seasonal-arima-forecasts.html" rel="next">
-          Next: Seasonal... 
+          Next: Seasonal...
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
@@ -829,18 +829,18 @@ any links that you are not going to use.
       		<footer class="row footer mx-md-3"><hr><div class="col-md-6">
         <p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
         <p>
-        
+
         <a href="https://github.com/carpentries-incubator/python-modeling-power-consumption/edit/main/episodes/06-autoregressive-integrated-moving-average-forecasts.md" class="external-link">Edit on GitHub</a>
-        
+
 	
         | <a href="https://github.com/carpentries-incubator/python-modeling-power-consumption/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
         | <a href="https://github.com/carpentries-incubator/python-modeling-power-consumption/" class="external-link">Source</a></p>
 				<p><a href="https://github.com/carpentries-incubator/python-modeling-power-consumption/blob/main/CITATION" class="external-link">Cite</a> | <a href="mailto:jwheel01@unm.edu">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 			</div>
 			<div class="col-md-6">
-        
+
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
-        
+
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
         <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.5" class="external-link">sandpaper (0.16.5)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.6" class="external-link">pegboard (0.7.6)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.3" class="external-link">varnish (1.0.3)</a></p>
 			</div>
@@ -865,7 +865,7 @@ any links that you are not going to use.
   "identifier": "https://carpentries-incubator.github.io/python-modeling-power-consumption/instructor/06-autoregressive-integrated-moving-average-forecasts.html",
   "dateCreated": "2023-08-29",
   "dateModified": "2023-08-18",
-  "datePublished": "2024-07-02"
+  "datePublished": "2024-07-09"
 }
 
   </script><script>

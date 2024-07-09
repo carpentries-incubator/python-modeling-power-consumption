@@ -27,7 +27,7 @@
             <span class="visually-hidden">This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.</span>
           </abbr>
         </span>
-        
+
       </div>
     </div>
     <div class="selector-container">
@@ -56,7 +56,7 @@
             </li>
           </ul></li>
       </div>
-      
+
       <div class="dropdown" id="instructor-dropdown">
         <button class="btn btn-secondary dropdown-toggle bordered-button" type="button" id="dropdownMenu1" data-bs-toggle="dropdown" aria-expanded="false">
           <i aria-hidden="true" class="icon" data-feather="eye"></i> Learner View <i data-feather="chevron-down"></i>
@@ -180,7 +180,7 @@
                 </div><!--/div.accordion-flush-->
               </div><!--div.sidenav-view-selector -->
             </div><!--/div.col -->
-      
+
             <hr></div><!--/div.mobile-row -->
 
           <div class="accordion accordion-flush" id="accordionFlush11">
@@ -199,7 +199,7 @@
     <div class="accordion-header" id="flush-heading1">
         <a href="index.html">Summary and Setup</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -208,7 +208,7 @@
     <div class="accordion-header" id="flush-heading2">
         <a href="01-introduction.html">1. Introduction to Time-series Forecasting</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -217,7 +217,7 @@
     <div class="accordion-header" id="flush-heading3">
         <a href="02-baseline-forecasts.html">2. Baseline Metrics for Timeseries Forecasts</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -231,7 +231,7 @@
         </span>
       </button>
     </div><!--/div.accordion-header-->
-        
+
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#introduction">Introduction</a></li>
@@ -242,7 +242,7 @@
 <li><a href="#transform-the-forecast-to-original-scale">Transform the forecast to original scale</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -251,7 +251,7 @@
     <div class="accordion-header" id="flush-heading5">
         <a href="04-autoregressive-forecasts.html">4. Autoregressive Forecasts</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -260,7 +260,7 @@
     <div class="accordion-header" id="flush-heading6">
         <a href="05-autoregressive-moving-average.html">5. Autoregressive Moving Average Forecasts</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -269,7 +269,7 @@
     <div class="accordion-header" id="flush-heading7">
         <a href="06-autoregressive-integrated-moving-average-forecasts.html">6. Autoregressive Integrated Moving Average Forecasts</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -278,7 +278,7 @@
     <div class="accordion-header" id="flush-heading8">
         <a href="07-seasonal-arima-forecasts.html">7. Seasonal Autoregressive Integrated Moving Average Forecasts</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -310,10 +310,10 @@
               </div>
             </div>
             <hr class="half-width resources"><a href="aio.html">See all in one page</a>
-            
+
 
             <hr class="d-none d-sm-block d-md-none"><div class="d-grid gap-1">
-            
+
             </div>
           </div><!-- /div.accordion -->
         </div><!-- /div.sidebar-inner -->
@@ -334,18 +334,18 @@
           Previous: Baseline Metrics for
         </a>
         <a class="chapter-link float-end" href="04-autoregressive-forecasts.html" rel="next">
-          Next: Autoregressive... 
+          Next: Autoregressive...
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Moving Average Forecasts</h1>
         <p>Last updated on 2023-08-16 |
-        
+
         <a href="https://github.com/carpentries-incubator/python-modeling-power-consumption/edit/main/episodes/03-moving-average-forecasts.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-        
-        
-        
+
+
+
         <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -374,8 +374,8 @@
 </div>
 </div>
 </div>
-<section id="introduction"><h2 class="section-heading">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h2>
+<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
 <hr class="half-width"><p>In the previous section, we used baseline metrics to forecast one or
 more timesteps of a time-series dataset. These forecasts help
 demonstrate some of the characteristic features of time-series, but as
@@ -390,8 +390,8 @@ good candidates for methods that account for trends, autoregression, and
 one or more types of seasonality. We will develop these concepts over
 the next several lessons, beginning here with autocorrelation and the
 use of moving averages to make forecasts using autocorrelated data.</p>
-</section><section id="about-the-code"><h2 class="section-heading">About the code<a class="anchor" aria-label="anchor" href="#about-the-code"></a>
-</h2>
+</section><section><h2 class="section-heading" id="about-the-code">About the code<a class="anchor" aria-label="anchor" href="#about-the-code"></a>
+<a class="anchor" aria-label="anchor" href="#about-the-code"></a></h2>
 <hr class="half-width"><p>The code used in this lesson is based on and, in some cases, a direct
 application of code used in the Manning Publications title, <em>Time
 series forecasting in Python</em>, by Marco Peixeiro.</p>
@@ -409,8 +409,8 @@ cite the source code developed by Peixeiro:</p>
 <p>Peixeiro, Marco. Timeseries Forecasting in Python [Software code].
 2022. Accessed from <a href="https://github.com/marcopeix/TimeSeriesForecastingInPython" class="external-link">https://github.com/marcopeix/TimeSeriesForecastingInPython</a>.</p>
 </blockquote>
-</section><section id="create-a-subset-to-demonstrate-autocorrelation"><h2 class="section-heading">Create a subset to demonstrate autocorrelation<a class="anchor" aria-label="anchor" href="#create-a-subset-to-demonstrate-autocorrelation"></a>
-</h2>
+</section><section><h2 class="section-heading" id="create-a-subset-to-demonstrate-autocorrelation">Create a subset to demonstrate autocorrelation<a class="anchor" aria-label="anchor" href="#create-a-subset-to-demonstrate-autocorrelation"></a>
+<a class="anchor" aria-label="anchor" href="#create-a-subset-to-demonstrate-autocorrelation"></a></h2>
 <hr class="half-width"><p>As we did in the previous episode, rather than read a dataset that is
 ready for analysis we are going to read one of the smart meter datasets
 and create a subset that demonstrates the characteristics of interest
@@ -446,10 +446,10 @@ meter.</p>
 <pre class="output" tabindex="0"><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
 RangeIndex: 105012 entries, 0 to 105011
 Data columns (total 5 columns):
- #   Column         Non-Null Count   Dtype  
----  ------         --------------   -----  
- 0   INTERVAL_TIME  105012 non-null  object 
- 1   METER_FID      105012 non-null  int64  
+ #   Column         Non-Null Count   Dtype
+---  ------         --------------   -----
+ 0   INTERVAL_TIME  105012 non-null  object
+ 1   METER_FID      105012 non-null  int64
  2   START_READ     105012 non-null  float64
  3   END_READ       105012 non-null  float64
  4   INTERVAL_READ  105012 non-null  float64
@@ -471,10 +471,10 @@ None</code></pre>
 <pre class="output" tabindex="0"><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
 DatetimeIndex: 105012 entries, 2017-01-01 00:00:00 to 2019-12-31 23:45:00
 Data columns (total 5 columns):
- #   Column         Non-Null Count   Dtype  
----  ------         --------------   -----  
- 0   INTERVAL_TIME  105012 non-null  object 
- 1   METER_FID      105012 non-null  int64  
+ #   Column         Non-Null Count   Dtype
+---  ------         --------------   -----
+ 0   INTERVAL_TIME  105012 non-null  object
+ 1   METER_FID      105012 non-null  int64
  2   START_READ     105012 non-null  float64
  3   END_READ       105012 non-null  float64
  4   INTERVAL_READ  105012 non-null  float64
@@ -492,7 +492,7 @@ None</code></pre>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>               INTERVAL_READ
-INTERVAL_TIME               
+INTERVAL_TIME
 2017-01-01           11.7546
 2017-01-02           15.0690
 2017-01-03           11.6406
@@ -513,8 +513,8 @@ consumption through late spring and into summer. This is expected -
 power consumption in US households tends to increase as the weather
 becomes warmer and people begin to use air conditioners or evaporative
 coolers.</p>
-</section><section id="differencing-and-autocorrelation"><h2 class="section-heading">Differencing and autocorrelation<a class="anchor" aria-label="anchor" href="#differencing-and-autocorrelation"></a>
-</h2>
+</section><section><h2 class="section-heading" id="differencing-and-autocorrelation">Differencing and autocorrelation<a class="anchor" aria-label="anchor" href="#differencing-and-autocorrelation"></a>
+<a class="anchor" aria-label="anchor" href="#differencing-and-autocorrelation"></a></h2>
 <hr class="half-width"><p>In order to make a forecast using the moving average model, however,
 the data need to be stationary. That is, we need to remove trends from
 the data. We can test for stationarity using the <code>adfuller</code>
@@ -564,7 +564,7 @@ dataframe with the first five differenced values.</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>Head of dataframe:                INTERVAL_READ
-INTERVAL_TIME               
+INTERVAL_TIME
 2019-01-01            7.5324
 2019-01-02           10.2534
 2019-01-03            6.8544
@@ -608,8 +608,8 @@ p-value: 2.8626643210939594e-12</code></pre>
 up to lag 2. We will use this information to supply the <em>order</em>
 parameter for the moving average model, below.</p>
 <figure><img src="./fig/ep3_fig4.png" alt="Autocorrelation plot of differenced data." class="figure mx-auto d-block"><div class="figcaption">Autocorrelation plot of differenced data.</div>
-</figure></section><section id="moving-average-forecast"><h2 class="section-heading">Moving average forecast<a class="anchor" aria-label="anchor" href="#moving-average-forecast"></a>
-</h2>
+</figure></section><section><h2 class="section-heading" id="moving-average-forecast">Moving average forecast<a class="anchor" aria-label="anchor" href="#moving-average-forecast"></a>
+<a class="anchor" aria-label="anchor" href="#moving-average-forecast"></a></h2>
 <hr class="half-width"><p>For our training data, we will use the 90% of the dataset. The
 remaining 10% of the data will be used to evaluate the performance of
 the moving average forecast in comparison with a baseline forecast.</p>
@@ -767,8 +767,8 @@ Moving average forecast, mean squared error: 86.16289030738947</code></pre>
 </div>
 <p>We can see that the moving average forecast performs much better than
 the last known value baseline forecast.</p>
-</section><section id="transform-the-forecast-to-original-scale"><h2 class="section-heading">Transform the forecast to original scale<a class="anchor" aria-label="anchor" href="#transform-the-forecast-to-original-scale"></a>
-</h2>
+</section><section><h2 class="section-heading" id="transform-the-forecast-to-original-scale">Transform the forecast to original scale<a class="anchor" aria-label="anchor" href="#transform-the-forecast-to-original-scale"></a>
+<a class="anchor" aria-label="anchor" href="#transform-the-forecast-to-original-scale"></a></h2>
 <hr class="half-width"><p>Because we differenced our data above in order to apply a moving
 average forecast, we now need to transform the data back to its original
 scale. To do this, we apply the numpy <code>cumsum()</code> method to
@@ -789,7 +789,7 @@ data that were used for the test dataset, so we can use the
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>               INTERVAL_READ  pred_usage
-INTERVAL_TIME                           
+INTERVAL_TIME
 2019-07-27           23.2752   31.008305
 2019-07-28           42.0504   28.974839
 2019-07-29           36.6444   30.387655
@@ -850,9 +850,9 @@ methods built in.</li>
 </ul></div>
 </div>
 </div>
-<!-- 
+<!--
 Place links that you need to refer to multiple times across pages here. Delete
-any links that you are not going to use. 
+any links that you are not going to use.
  -->
 </section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
@@ -866,7 +866,7 @@ any links that you are not going to use.
           Previous: Baseline Metrics for
         </a>
         <a class="chapter-link float-end" href="04-autoregressive-forecasts.html" rel="next">
-          Next: Autoregressive... 
+          Next: Autoregressive...
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
@@ -877,18 +877,18 @@ any links that you are not going to use.
       		<footer class="row footer mx-md-3"><hr><div class="col-md-6">
         <p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
         <p>
-        
+
         <a href="https://github.com/carpentries-incubator/python-modeling-power-consumption/edit/main/episodes/03-moving-average-forecasts.md" class="external-link">Edit on GitHub</a>
-        
+
 	
         | <a href="https://github.com/carpentries-incubator/python-modeling-power-consumption/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
         | <a href="https://github.com/carpentries-incubator/python-modeling-power-consumption/" class="external-link">Source</a></p>
 				<p><a href="https://github.com/carpentries-incubator/python-modeling-power-consumption/blob/main/CITATION" class="external-link">Cite</a> | <a href="mailto:jwheel01@unm.edu">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 			</div>
 			<div class="col-md-6">
-        
+
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
-        
+
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
         <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.5" class="external-link">sandpaper (0.16.5)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.6" class="external-link">pegboard (0.7.6)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.3" class="external-link">varnish (1.0.3)</a></p>
 			</div>
@@ -913,7 +913,7 @@ any links that you are not going to use.
   "identifier": "https://carpentries-incubator.github.io/python-modeling-power-consumption/03-moving-average-forecasts.html",
   "dateCreated": "2023-08-29",
   "dateModified": "2023-08-16",
-  "datePublished": "2024-07-02"
+  "datePublished": "2024-07-09"
 }
 
   </script><script>
