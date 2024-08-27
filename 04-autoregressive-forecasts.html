@@ -285,10 +285,10 @@
               </div>
             </div>
 
-            <hr class="half-width"><div class="accordion accordion-flush resources" id="accordionFlush12">
+            <hr class="half-width"><div class="accordion accordion-flush lesson-resources" id="accordionFlush12">
               <div class="accordion-item">
                 <h2 class="accordion-header" id="flush-headingTwelve">
-                  <button class="accordion-button collapsed" id="resources" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwelve" aria-expanded="false" aria-controls="flush-collapseTwelve">
+                  <button class="accordion-button collapsed" id="lesson-resources" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwelve" aria-expanded="false" aria-controls="flush-collapseTwelve">
                     RESOURCES
                   </button>
                 </h2>
@@ -308,7 +308,7 @@
                 </div>
               </div>
             </div>
-            <hr class="half-width resources"><a href="aio.html">See all in one page</a>
+            <hr class="half-width lesson-resources"><a href="aio.html">See all in one page</a>
 
 
             <hr class="d-none d-sm-block d-md-none"><div class="d-grid gap-1">
@@ -374,8 +374,7 @@
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
+<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
 <hr class="half-width"><p>In this section we will continue to use the same subset of data to
 refine our time-series forecasts. We have seen how we can improve
 forecasts by differencing data so that time-series are stationary.</p>
@@ -384,8 +383,7 @@ as accurate as we’d like them to be. This is because in addition to not
 being stationary, our data include autoregressive processes. That is,
 values for power consumption can be affected by previous values of the
 same variable.</p>
-</section><section><h2 class="section-heading" id="about-the-code">About the code<a class="anchor" aria-label="anchor" href="#about-the-code"></a>
-<a class="anchor" aria-label="anchor" href="#about-the-code"></a></h2>
+</section><section><h2 class="section-heading" id="about-the-code">About the code<a class="anchor" aria-label="anchor" href="#about-the-code"></a></h2>
 <hr class="half-width"><p>The code used in this lesson is based on and, in some cases, a direct
 application of code used in the Manning Publications title, <em>Time
 series forecasting in Python</em>, by Marco Peixeiro.</p>
@@ -403,8 +401,7 @@ cite the source code developed by Peixeiro:</p>
 <p>Peixeiro, Marco. Timeseries Forecasting in Python [Software code].
 2022. Accessed from <a href="https://github.com/marcopeix/TimeSeriesForecastingInPython" class="external-link">https://github.com/marcopeix/TimeSeriesForecastingInPython</a>.</p>
 </blockquote>
-</section><section><h2 class="section-heading" id="create-data-subset">Create data subset<a class="anchor" aria-label="anchor" href="#create-data-subset"></a>
-<a class="anchor" aria-label="anchor" href="#create-data-subset"></a></h2>
+</section><section><h2 class="section-heading" id="create-data-subset">Create data subset<a class="anchor" aria-label="anchor" href="#create-data-subset"></a></h2>
 <hr class="half-width"><p>Since we have been using the same process to read and subset a single
 data file, this time we will write a function that includes the
 necessary commands. This will make our process more flexible in case we
@@ -496,8 +493,7 @@ INTERVAL_TIME
 </div>
 <figure><img src="./fig/ep4_fig1.png" alt="Plot of daily power consumption from a single power meter." class="figure mx-auto d-block"><div class="figcaption">Plot of daily power consumption from a single
 power meter.</div>
-</figure></section><section><h2 class="section-heading" id="determine-order-of-autoregressive-process">Determine order of autoregressive process<a class="anchor" aria-label="anchor" href="#determine-order-of-autoregressive-process"></a>
-<a class="anchor" aria-label="anchor" href="#determine-order-of-autoregressive-process"></a></h2>
+</figure></section><section><h2 class="section-heading" id="determine-order-of-autoregressive-process">Determine order of autoregressive process<a class="anchor" aria-label="anchor" href="#determine-order-of-autoregressive-process"></a></h2>
 <hr class="half-width"><p>As before, we will also calculate the AD Fuller statistic on the
 data.</p>
 <div class="codewrapper sourceCode" id="cb7">
@@ -553,8 +549,7 @@ to determine this.</p>
 difference data.</div>
 </figure><p>The plot indicates significant autoregression up to the fourth lag,
 so we have an autoregressive process of order 4, or AR(4).</p>
-</section><section><h2 class="section-heading" id="forecast-an-autoregressive-process">Forecast an autoregressive process<a class="anchor" aria-label="anchor" href="#forecast-an-autoregressive-process"></a>
-<a class="anchor" aria-label="anchor" href="#forecast-an-autoregressive-process"></a></h2>
+</section><section><h2 class="section-heading" id="forecast-an-autoregressive-process">Forecast an autoregressive process<a class="anchor" aria-label="anchor" href="#forecast-an-autoregressive-process"></a></h2>
 <hr class="half-width"><p>With the order of the autoregressive process known, we can revise our
 forecasting function to pass this new parameter to the SARIMAX model
 from <code>sklearn</code>.</p>
@@ -776,8 +771,7 @@ values.</div>
 <i class="callout-icon" data-feather="key"></i>
 </div>
 <div class="callout-inner">
-<h3 class="callout-title">Key Points<a class="anchor" aria-label="anchor" href="#keypoints1"></a>
-</h3>
+<h3 class="callout-title">Key Points</h3>
 <div class="callout-content">
 <ul><li>The <em>order</em> argument of the SARIMAX model includes parameters
 for the order of autoregressive and moving average processes.</li>
@@ -824,7 +818,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.5" class="external-link">sandpaper (0.16.5)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.6" class="external-link">pegboard (0.7.6)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.3" class="external-link">varnish (1.0.3)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.6" class="external-link">sandpaper (0.16.6)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.6" class="external-link">pegboard (0.7.6)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.4" class="external-link">varnish (1.0.4)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -847,7 +841,7 @@ any links that you are not going to use.
   "identifier": "https://carpentries-incubator.github.io/python-modeling-power-consumption/04-autoregressive-forecasts.html",
   "dateCreated": "2023-08-29",
   "dateModified": "2023-08-20",
-  "datePublished": "2024-08-20"
+  "datePublished": "2024-08-27"
 }
 
   </script><script>
